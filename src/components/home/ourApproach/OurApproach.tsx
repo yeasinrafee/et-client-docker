@@ -10,10 +10,10 @@ const OurApproach = () => {
   const [activeStep, setActiveStep] = useState(approachData[0]);
 
   return (
-    <section className="py-16 sm:py-20 md:py-24 bg-secondary text-white overflow-hidden border-b border-white/10">
+    <section className="py-10 sm:py-12 md:py-24 bg-secondary text-white overflow-hidden border-b border-white/10">
       <Container>
         {/* Top Header Section */}
-        <div className="flex flex-col md:grid md:grid-cols-12 gap-6 sm:gap-8 md:items-end mb-12 sm:mb-16 md:mb-20">
+        <div className="flex flex-col md:grid md:grid-cols-12 gap-6 sm:gap-8 md:items-end mb-8 sm:mb-12 md:mb-20">
           <div className="md:col-span-8 space-y-6 sm:space-y-8">
             <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter uppercase">
               Our Approach
@@ -32,7 +32,7 @@ const OurApproach = () => {
           </div>
         </div>
 
-        <div className="w-full h-px bg-white/10 mb-12 sm:mb-16 md:mb-20"></div>
+        <div className="w-full h-px bg-white/10 mb-8 sm:mb-10 md:mb-20"></div>
 
         {/* Content Section */}
         <div className="grid lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-16 xl:gap-20">

@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { MdArrowOutward } from "react-icons/md";
 import Container from "@/components/shared/layout/Container";
 import { servicesData } from "@/data/servicesData";
@@ -10,9 +11,12 @@ const Services = () => {
   const [activeService, setActiveService] = useState(servicesData[0]);
 
   return (
-    <section id="services" className="py-16 sm:py-20 md:py-24 bg-white overflow-hidden">
+    <section
+      id="services"
+      className="pt-8! pb-12! sm:py-8 md:py-20! bg-white overflow-hidden"
+    >
       <Container>
-        <div className="grid lg:grid-cols-12 gap-10 sm:gap-12 lg:gap-16 items-start">
+        <div className="grid lg:grid-cols-12 gap-6 sm:gap-12 lg:gap-16 items-start">
           {/* Left Side: Service List */}
           <div className="lg:col-span-5 flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-4 lg:pb-0 -mx-4 px-4 lg:mx-0 lg:px-0">
             {servicesData.map((service) => (
@@ -68,12 +72,17 @@ const Services = () => {
                 </p>
 
                 {/* Learn More Button */}
-                <button className="flex items-center gap-3 text-secondary font-bold text-sm group">
-                  <span className="tracking-widest uppercase text-xs sm:text-sm">LEARN MORE</span>
+                <Link
+                  href={`/services/${activeService.slug}`}
+                  className="flex items-center gap-3 text-secondary font-bold text-sm group w-max"
+                >
+                  <span className="tracking-widest uppercase text-xs sm:text-sm">
+                    LEARN MORE
+                  </span>
                   <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-primary flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
                     <MdArrowOutward className="text-lg sm:text-xl" />
                   </div>
-                </button>
+                </Link>
               </div>
 
               {/* Card Image Bottom with Primary Background */}

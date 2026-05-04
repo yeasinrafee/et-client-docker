@@ -24,7 +24,7 @@ const Demos = () => {
       {/* Demos Grid Section */}
       <section
         id="all-demos"
-        className="py-24 bg-white border-b border-accent"
+        className="py-6 md:py-10 lg:py-16 xl:py-20 bg-white border-b border-accent"
       >
         <Container>
           {/* Demos Grid */}

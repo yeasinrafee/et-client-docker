@@ -10,14 +10,14 @@ const OurDemos = () => {
 
   return (
     <section
-      id="our-demos"
-      className="py-16 bg-[#F8F8F8] border-b border-accent"
+      id="demos"
+      className="pt-10! pb-12! md:py-16! bg-[#F8F8F8] border-b border-accent"
     >
       <Container>
         {/* Header Section */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-16">
           <div className="space-y-4">
-            <h2 className="text-5xl md:text-7xl font-bold text-secondary tracking-tighter uppercase">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-secondary tracking-tighter uppercase">
               OUR DEMOS
             </h2>
             <p className="text-secondary/50 text-lg max-w-xl">
@@ -26,7 +26,7 @@ const OurDemos = () => {
           </div>
           <Link
             href="/demos"
-            className="flex items-center gap-3 bg-primary text-white px-8 py-4 rounded-full text-xs font-bold tracking-widest hover:bg-opacity-90 transition-all group shadow-lg shadow-primary/20 whitespace-nowrap"
+            className="flex items-center max-w-fit gap-3 bg-primary text-white px-6 sm:px-8 py-3 sm:py-3.5 rounded-full text-[10px] sm:text-xs font-bold tracking-widest hover:bg-opacity-90 transition-all group shadow-lg shadow-primary/20"
           >
             VIEW ALL DEMOS
             <MdArrowOutward className="text-xl group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />

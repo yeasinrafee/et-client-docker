@@ -14,7 +14,10 @@ const Industries = () => {
   ]);
 
   return (
-    <section id="industries" className="py-12 sm:py-16 md:py-20 lg:py-24 bg-secondary text-white overflow-hidden">
+    <section
+      id="industries"
+      className="py-12 sm:py-16 md:py-20 lg:py-24 bg-secondary text-white overflow-hidden"
+    >
       <Container>
         {/* Header Section */}
         <div className="mb-8 sm:mb-10 md:mb-12">
@@ -41,11 +44,11 @@ const Industries = () => {
           {/* Right Column: Carousel */}
           <div className="lg:col-span-8">
             <div className="overflow-hidden px-2" ref={emblaRef}>
-              <div className="flex -ml-4 md:-ml-6">
+              <div className="flex -ml-5 md:-ml-6">
                 {industriesData.map((industry) => (
                   <div
                     key={industry.id}
-                    className="flex-[0_0_85%] sm:flex-[0_0_70%] md:flex-[0_0_45%] lg:flex-[0_0_38%] min-w-0 pl-4 md:pl-6"
+                    className="flex-[0_0_54%] sm:flex-[0_0_70%] md:flex-[0_0_45%] lg:flex-[0_0_38%] min-w-0 pl-4 md:pl-6"
                   >
                     <div className="bg-white rounded-3xl overflow-hidden group h-full flex flex-col">
                       {/* Image container with overlay */}

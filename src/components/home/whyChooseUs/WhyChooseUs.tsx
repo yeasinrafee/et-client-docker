@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { MdArrowOutward } from "react-icons/md";
 import Container from "@/components/shared/layout/Container";
+import Link from "next/link";
 
 const WhyChooseUs = () => {
   const stats = [
@@ -24,10 +25,13 @@ const WhyChooseUs = () => {
   ];
 
   return (
-    <section className="py-16 sm:py-20 md:py-24 bg-[#F8F8F8] border-b border-accent">
+    <section
+      id="about"
+      className="py-8 sm:py-10 md:py-24 bg-[#F8F8F8] border-b border-accent"
+    >
       <Container>
         {/* Top Header */}
-        <div className="mb-12 sm:mb-16 md:mb-20">
+        <div className="mb-6 sm:mb-8 md:mb-12">
           <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-secondary mb-4 sm:mb-6 tracking-tighter">
             WHY CHOOSE US?
           </h2>
@@ -37,7 +41,7 @@ const WhyChooseUs = () => {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-12 items-start pt-8 sm:pt-12 border-t border-accent gap-8 lg:gap-0">
+        <div className="grid lg:grid-cols-12 items-start pt-6 sm:pt-8 md:pt-16 border-t border-accent gap-8 lg:gap-0">
           {/* Left Column: Description & CTA */}
           <div className="lg:col-span-4 space-y-6 sm:space-y-8 lg:pr-12 pb-8 lg:pb-12">
             <p className="text-secondary/70 text-sm sm:text-base leading-relaxed">
@@ -47,10 +51,13 @@ const WhyChooseUs = () => {
               requirements and delivering innovative, and secure software
               tailored to your needs.
             </p>
-            <button className="flex items-center gap-3 bg-primary text-white px-6 sm:px-8 py-3 sm:py-3.5 rounded-full text-[10px] sm:text-xs font-bold tracking-widest hover:bg-opacity-90 transition-all group shadow-lg shadow-primary/20">
-              ABOUT US
+            <Link
+              href="/#contact"
+              className="flex items-center max-w-fit gap-3 bg-primary text-white px-6 sm:px-8 py-3 sm:py-3.5 rounded-full text-[10px] sm:text-xs font-bold tracking-widest hover:bg-opacity-90 transition-all group shadow-lg shadow-primary/20"
+            >
+              CONTACT US
               <MdArrowOutward className="text-lg group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-            </button>
+            </Link>
           </div>
 
           {/* Middle Column: Image */}

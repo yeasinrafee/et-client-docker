@@ -41,7 +41,7 @@ const Reviews = () => {
   }, [emblaApi, onSelect]);
 
   return (
-    <section className="py-12 sm:py-16 md:py-20 bg-[#F8F8F8] border-b border-accent">
+    <section className="py-10 sm:py-12 md:py-20 bg-[#F8F8F8] border-b border-accent">
       <Container>
         {/* Header Section */}
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6 sm:gap-8 lg:gap-10 mb-12 sm:mb-16 md:mb-20">
@@ -73,7 +73,7 @@ const Reviews = () => {
               {reviewsData.map((review, index) => (
                 <div
                   key={review.id}
-                  className={`flex-[0_0_90%] sm:flex-[0_0_80%] md:flex-[0_0_45%] lg:flex-[0_0_33.33%] pl-4 sm:pl-6 transition-opacity duration-500 ease-out ${
+                  className={`flex-[0_0_100%] sm:flex-[0_0_80%] md:flex-[0_0_45%] lg:flex-[0_0_33.33%] pl-0 sm:pl-6 transition-opacity duration-500 ease-out ${
                     selectedIndex === index ? "opacity-100" : "opacity-30"
                   }`}
                 >

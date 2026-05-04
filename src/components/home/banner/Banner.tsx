@@ -3,6 +3,7 @@ import Image from "next/image";
 import { MdArrowOutward } from "react-icons/md";
 import Container from "../../shared/layout/Container";
 import bg2 from "@/assets/images/banner/bg3.gif";
+import Link from "next/link";
 
 const Banner = () => {
   return (
@@ -20,11 +21,11 @@ const Banner = () => {
         <div className="absolute inset-0 bg-black/70 z-10"></div>
       </div>
 
-      <Container className="relative z-20 pb-12 sm:pb-16 md:pb-20 lg:pb-28 xl:pb-32">
-        <div className="grid lg:grid-cols-12 gap-8 md:gap-12 items-end">
+      <Container className="relative z-20 pb-6 sm:pb-16 md:pb-20 lg:pb-28 xl:pb-32">
+        <div className="grid lg:grid-cols-12 gap-6 md:gap-12 items-end">
           {/* Main Content */}
           <div className="lg:col-span-8 space-y-4 sm:space-y-6">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-[1.1] tracking-tight">
+            <h1 className="text-[28px] leading-[1.2] sm:text-4xl md:text-5xl lg:text-6xl 2xl:text-7xl font-bold text-white tracking-tight">
               CUSTOMIZED SOFTWARE <br />
               SOLUTIONS FOR BUSINESS
             </h1>
@@ -38,12 +39,15 @@ const Banner = () => {
 
           {/* Circular CTA */}
           <div className="lg:col-span-4 flex justify-start lg:justify-end">
-            <button className="group relative w-36 h-36 sm:w-40 sm:h-40 md:w-48 md:h-48 xl:w-56 xl:h-56 rounded-full bg-primary text-white flex flex-col items-center justify-center p-6 sm:p-8 text-center transition-transform hover:scale-105 duration-500 shadow-2xl shadow-primary/20">
-              <MdArrowOutward className="text-2xl sm:text-3xl md:text-4xl mb-3 sm:mb-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-              <span className="text-[9px] sm:text-[10px] md:text-xs font-bold tracking-widest leading-tight">
+            <Link
+              href="/#contact"
+              className="group relative w-24 h-24 sm:w-40 sm:h-40 md:w-48 md:h-48 xl:w-56 xl:h-56 rounded-full bg-primary text-white flex flex-col items-center justify-center p-4 sm:p-8 text-center transition-transform hover:scale-105 duration-500 shadow-2xl shadow-primary/20"
+            >
+              <MdArrowOutward className="text-xl sm:text-3xl md:text-4xl mb-2 sm:mb-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+              <span className="text-[7px] sm:text-[10px] md:text-xs font-bold tracking-widest leading-tight">
                 LET&apos;S DISCUSS <br /> YOUR PROJECT
               </span>
-            </button>
+            </Link>
           </div>
         </div>
       </Container>

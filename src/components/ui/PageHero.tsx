@@ -35,17 +35,17 @@ const PageHero: React.FC<PageHeroProps> = ({
         {/* Overlay - solid dark layer */}
         <div className={`absolute inset-0 bg-black/70`}></div>
         {/* Bottom Gradient for smooth transition */}
-        <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-black/70 to-transparent"></div>
+        <div className="absolute bottom-0 left-0 w-full h-40 bg-linear-to-t from-black/70 to-transparent"></div>
       </div>
 
       {/* Content - positioned at the bottom */}
-      <Container className="relative z-10 !py-0 pb-12! sm:pb-16! md:pb-20! lg:pb-24!">
-        <div className="max-w-3xl space-y-4 sm:space-y-5">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-white tracking-tighter ">
+      <Container className="relative z-10 !py-0 pb-8! sm:pb-10! md:pb-16! 2xl:pb-24!">
+        <div className="max-w-3xl space-y-2 sm:space-y-3 md:space-y-4 2xl:space-y-5">
+          <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold text-white tracking-tighter ">
             {title}
           </h1>
           {subtitle && (
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/70 max-w-2xl leading-relaxed font-medium">
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/70 max-w-2xl md:leading-relaxed font-medium">
               {subtitle}
             </p>
           )}

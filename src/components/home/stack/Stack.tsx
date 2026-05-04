@@ -9,11 +9,11 @@ const Stack = () => {
   const [activeTab, setActiveTab] = useState(stackData[0]);
 
   return (
-    <section className="py-12 sm:py-16 md:py-20 bg-white border-b border-accent">
+    <section className="py-10 sm:py-12 md:py-20 bg-white border-b border-accent">
       <Container>
         {/* Main Heading */}
-        <div className="mb-12 sm:mb-16 md:mb-20">
-          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-secondary tracking-tighter uppercase">
+        <div className="mb-8 sm:mb-10 md:mb-20">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-left font-bold text-secondary tracking-tighter uppercase">
             Technology Stack
           </h2>
           <div className="w-full h-px bg-accent mt-8 sm:mt-10 md:mt-12"></div>
@@ -65,7 +65,10 @@ const Stack = () => {
           <div className="lg:col-span-8">
             <div className="space-y-10 sm:space-y-12 md:space-y-16 animate-in fade-in slide-in-from-right-4 duration-500">
               {activeTab.subSections.map((section, sIdx) => (
-                <div key={sIdx} className="space-y-6 sm:space-y-8 md:space-y-10">
+                <div
+                  key={sIdx}
+                  className="space-y-6 sm:space-y-8 md:space-y-10"
+                >
                   {/* Sub-section Title */}
                   {(activeTab.id === "01" ||
                     !section.title.includes("Stack")) && (

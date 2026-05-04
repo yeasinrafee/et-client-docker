@@ -55,7 +55,7 @@ const DemoDetailsContent = ({ demo }: Props) => {
       {/* Breadcrumb & Navigation */}
       <section className="bg-white border-b border-accent">
         <Container>
-          <div className="flex items-center justify-between py-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 py-4">
             <Link
               href="/demos"
               className="flex items-center gap-2 text-secondary/50 hover:text-primary transition-colors text-sm font-medium"
@@ -63,7 +63,7 @@ const DemoDetailsContent = ({ demo }: Props) => {
               <MdArrowBack className="text-lg" />
               Back to Demos
             </Link>
-            <div className="flex items-center gap-2 text-secondary/40 text-sm">
+            <div className="hidden sm:flex items-center gap-2 text-secondary/40 text-sm">
               <Link href="/" className="hover:text-primary transition-colors">
                 Home
               </Link>
@@ -82,14 +82,14 @@ const DemoDetailsContent = ({ demo }: Props) => {
       </section>
 
       {/* Overview & Tech Stack */}
-      <section className="py-20 bg-white">
+      <section className="py-6 md:py-10 lg:py-16 xl:py-20 bg-white">
         <Container>
-          <div className="grid lg:grid-cols-12 gap-16 items-center">
-            <div className="lg:col-span-7 space-y-8">
+          <div className="grid lg:grid-cols-12 gap-12 md:gap-16 lg:gap-24 items-center">
+            <div className="lg:col-span-7 space-y-4 md:space-y-8">
               <h2 className="text-4xl md:text-5xl font-bold text-secondary tracking-tighter">
                 Project Overview
               </h2>
-              <p className="text-secondary/60 text-lg leading-relaxed">
+              <p className="text-secondary/60 text-base md:text-lg leading-relaxed">
                 {demo.description}
               </p>
 
@@ -112,7 +112,7 @@ const DemoDetailsContent = ({ demo }: Props) => {
               </div>
             </div>
 
-            <div className="lg:col-span-5 p-8 rounded-[32px] bg-[#F8F8F8] border border-accent space-y-8">
+            <div className="lg:col-span-5 p-6 md:p-8 rounded-[32px] bg-[#F8F8F8] border border-accent space-y-8">
               <div>
                 <h3 className="text-sm font-bold text-secondary/40 tracking-widest uppercase mb-4">
                   Technologies
@@ -142,7 +142,7 @@ const DemoDetailsContent = ({ demo }: Props) => {
                 href={demo.demoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center w-full gap-2 bg-primary text-white px-6 py-4 rounded-full text-sm font-bold tracking-widest hover:bg-opacity-90 transition-all group"
+                className="flex items-center justify-center w-full gap-2 bg-primary text-white px-6 md:px-8 py-3.5 md:py-5 rounded-full text-xs md:text-sm font-bold tracking-widest hover:bg-opacity-90 transition-all group shadow-lg shadow-primary/20"
               >
                 LIVE PREVIEW
                 <MdArrowOutward className="text-lg group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
@@ -153,14 +153,14 @@ const DemoDetailsContent = ({ demo }: Props) => {
       </section>
 
       {/* Demo Screenshots Gallery */}
-      <section className="py-24 bg-[#F8F8F8]">
+      <section className="py-6 md:py-10 lg:py-16 xl:py-20 bg-[#F8F8F8] border-t border-accent">
         <Container>
-          <div className="flex justify-between items-end mb-16">
-            <div className="space-y-4">
+          <div className="flex flex-col md:flex-row justify-between items-end gap-6 mb-12 md:mb-16">
+            <div className="space-y-2 md:space-y-4">
               <h2 className="text-4xl md:text-5xl font-bold text-secondary tracking-tighter">
                 Demo Screenshots
               </h2>
-              <p className="text-secondary/60 text-lg max-w-2xl">
+              <p className="text-secondary/60 text-base md:text-lg max-w-2xl">
                 Click on any image to view it in full screen. You can scroll to
                 explore long pages in detail.
               </p>
@@ -182,11 +182,11 @@ const DemoDetailsContent = ({ demo }: Props) => {
           </div>
 
           <div className="overflow-hidden" ref={emblaRef}>
-            <div className="flex -ml-4">
+            <div className="flex -ml-4 md:-ml-6">
               {demo.images.map((img, index) => (
                 <div
                   key={index}
-                  className="pl-4 flex-[0_0_100%] md:flex-[0_0_50%] lg:flex-[0_0_33.3333%]"
+                  className="pl-4 md:pl-6 flex-[0_0_100%] md:flex-[0_0_50%] lg:flex-[0_0_33.3333%]"
                 >
                   <div
                     onClick={() => setSelectedImage(img as unknown as string)}

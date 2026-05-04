@@ -28,7 +28,7 @@ const Brand = () => {
   ];
 
   return (
-    <section className="py-8 bg-white border-y border-accent">
+    <section className="py-6 md:py-8 bg-white border-y border-accent">
       <Marquee gradient={false} speed={60} pauseOnHover={true}>
         {brands.map((brand, index) => (
           <div

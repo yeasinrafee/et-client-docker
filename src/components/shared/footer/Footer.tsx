@@ -61,7 +61,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="relative bg-black text-white pt-28 pb-8 overflow-hidden">
+    <footer className="relative bg-black text-white pt-12 sm:pt-16 lg:pt-20 xl:pt-24 pb-8 sm:pb-10 lg:pb-12 overflow-hidden">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -104,53 +104,14 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Links Sections Wrapper */}
-          <div className="lg:col-span-7 flex flex-col sm:flex-row justify-between gap-12 md:gap-8">
-            {/* Consulting & Product Design Column */}
-            <div className="space-y-8">
-              <div className="space-y-4">
-                <h4 className="text-lg font-bold uppercase tracking-wider">
-                  Consulting
-                </h4>
-                <ul className="space-y-3">
-                  {consultingLinks.map((link, index) => (
-                    <li key={index}>
-                      <Link
-                        href={link.href}
-                        className="text-accent/50 text-sm hover:text-primary transition-colors"
-                      >
-                        {link.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="space-y-4">
-                <h4 className="text-lg font-bold uppercase tracking-wider">
-                  Product design
-                </h4>
-                <ul className="space-y-3">
-                  {productDesignLinks.map((link, index) => (
-                    <li key={index}>
-                      <Link
-                        href={link.href}
-                        className="text-accent/50 text-sm hover:text-primary transition-colors"
-                      >
-                        {link.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            {/* Services Column */}
+          {/* Consulting & Product Design Column */}
+          <div className="lg:col-span-3 space-y-8">
             <div className="space-y-4">
               <h4 className="text-lg font-bold uppercase tracking-wider">
-                Services
+                Consulting
               </h4>
               <ul className="space-y-3">
-                {servicesLinks.map((link, index) => (
+                {consultingLinks.map((link, index) => (
                   <li key={index}>
                     <Link
                       href={link.href}
@@ -162,42 +123,78 @@ const Footer = () => {
                 ))}
               </ul>
             </div>
-
-            {/* About & Contact Column */}
-            <div className="space-y-8">
-              <div className="space-y-4">
-                <h4 className="text-lg font-bold uppercase tracking-wider">
-                  About us
-                </h4>
-                <ul className="space-y-3">
-                  {aboutLinks.map((link, index) => (
-                    <li key={index}>
-                      <Link
-                        href={link.href}
-                        className="text-accent/50 text-sm hover:text-primary transition-colors"
-                      >
-                        {link.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="space-y-4">
-                <h4 className="text-lg font-bold uppercase tracking-wider">
-                  Contact us
-                </h4>
-                <ul className="space-y-3">
-                  {contactInfo.map((info, index) => (
-                    <li
-                      key={index}
-                      className="flex items-center gap-3 text-accent/50 text-sm"
+            <div className="space-y-4">
+              <h4 className="text-lg font-bold uppercase tracking-wider">
+                Product design
+              </h4>
+              <ul className="space-y-3">
+                {productDesignLinks.map((link, index) => (
+                  <li key={index}>
+                    <Link
+                      href={link.href}
+                      className="text-accent/50 text-sm hover:text-primary transition-colors"
                     >
-                      <span className="text-xl">{info.icon}</span>
-                      {info.text}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* Services Column */}
+          <div className="lg:col-span-2 space-y-4">
+            <h4 className="text-lg font-bold uppercase tracking-wider">
+              Services
+            </h4>
+            <ul className="space-y-3">
+              {servicesLinks.map((link, index) => (
+                <li key={index}>
+                  <Link
+                    href={link.href}
+                    className="text-accent/50 text-sm hover:text-primary transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* About & Contact Column */}
+          <div className="lg:col-span-2 space-y-8">
+            <div className="space-y-4">
+              <h4 className="text-lg font-bold uppercase tracking-wider">
+                About us
+              </h4>
+              <ul className="space-y-3">
+                {aboutLinks.map((link, index) => (
+                  <li key={index}>
+                    <Link
+                      href={link.href}
+                      className="text-accent/50 text-sm hover:text-primary transition-colors"
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="space-y-4">
+              <h4 className="text-lg font-bold uppercase tracking-wider">
+                Contact us
+              </h4>
+              <ul className="space-y-3">
+                {contactInfo.map((info, index) => (
+                  <li
+                    key={index}
+                    className="flex items-center gap-3 text-accent/50 text-sm"
+                  >
+                    <span className="text-xl">{info.icon}</span>
+                    {info.text}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>

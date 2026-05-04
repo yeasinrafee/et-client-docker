@@ -59,7 +59,7 @@ const ProductDetailsContent = ({ product }: Props) => {
       {/* Breadcrumb & Navigation */}
       <section className="bg-white border-b border-accent">
         <Container>
-          <div className="flex items-center justify-between py-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 py-4">
             <Link
               href="/products"
               className="flex items-center gap-2 text-secondary/50 hover:text-primary transition-colors text-sm font-medium"
@@ -67,7 +67,7 @@ const ProductDetailsContent = ({ product }: Props) => {
               <MdArrowBack className="text-lg" />
               Back to Products
             </Link>
-            <div className="flex items-center gap-2 text-secondary/40 text-sm">
+            <div className="hidden sm:flex items-center gap-2 text-secondary/40 text-sm">
               <Link href="/" className="hover:text-primary transition-colors">
                 Home
               </Link>
@@ -88,7 +88,7 @@ const ProductDetailsContent = ({ product }: Props) => {
       </section>
 
       {/* Project Overview */}
-      <section className="py-20 bg-white">
+      <section className="py-6 md:py-10 lg:py-16 xl:py-20 bg-white">
         <Container>
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
             {/* Image Gallery */}
@@ -158,7 +158,7 @@ const ProductDetailsContent = ({ product }: Props) => {
             </div>
 
             {/* Project Info */}
-            <div className="space-y-10">
+            <div className="space-y-6 lg:space-y-10">
               {/* Tags */}
               <div className="flex flex-wrap gap-3">
                 <span className="px-4 py-2 bg-primary/5 text-primary text-xs font-bold tracking-widest rounded-full border border-primary/10 uppercase">
@@ -231,16 +231,16 @@ const ProductDetailsContent = ({ product }: Props) => {
       </section>
 
       {/* Key Metrics */}
-      <section className="py-20 bg-secondary">
+      <section className="py-6 md:py-10 lg:py-16 xl:py-20 bg-secondary">
         <Container>
-          <div className="text-center space-y-4 mb-16">
+          <div className="text-center space-y-4 mb-12 md:mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tighter">
               Key Results
             </h2>
             <p className="text-white/40 text-lg">{product.results}</p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
             {product.keyMetrics.map((metric, index) => (
               <div
                 key={index}
@@ -259,11 +259,11 @@ const ProductDetailsContent = ({ product }: Props) => {
       </section>
 
       {/* Challenge & Solution */}
-      <section className="py-20 bg-white">
+      <section className="py-6 md:py-10 lg:py-16 xl:py-20 bg-white">
         <Container>
-          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
+          <div className="grid lg:grid-cols-2 gap-12 md:gap-16 lg:gap-24">
             {/* Challenge */}
-            <div className="space-y-8">
+            <div className="space-y-4 md:space-y-8">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-2xl bg-orange/10 flex items-center justify-center">
                   <span className="text-orange text-xl font-bold">!</span>
@@ -272,13 +272,13 @@ const ProductDetailsContent = ({ product }: Props) => {
                   The Challenge
                 </h3>
               </div>
-              <p className="text-secondary/60 text-lg leading-relaxed">
+              <p className="text-secondary/60 text-base md:text-lg leading-relaxed">
                 {product.challenge}
               </p>
             </div>
 
             {/* Solution */}
-            <div className="space-y-8">
+            <div className="space-y-4 md:space-y-8">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center">
                   <span className="text-primary text-xl font-bold">✓</span>
@@ -287,7 +287,7 @@ const ProductDetailsContent = ({ product }: Props) => {
                   Our Solution
                 </h3>
               </div>
-              <p className="text-secondary/60 text-lg leading-relaxed">
+              <p className="text-secondary/60 text-base md:text-lg leading-relaxed">
                 {product.solution}
               </p>
             </div>
@@ -296,7 +296,7 @@ const ProductDetailsContent = ({ product }: Props) => {
       </section>
 
       {/* Features */}
-      <section className="py-24 bg-[#F8F8F8]">
+      <section className="py-6 md:py-10 lg:py-16 xl:py-20 bg-[#F8F8F8]">
         <Container>
           <div className="grid lg:grid-cols-12 gap-16 lg:gap-24 items-center">
             {/* Left Side: Feature Image */}
@@ -314,11 +314,11 @@ const ProductDetailsContent = ({ product }: Props) => {
 
             {/* Right Side: Features List */}
             <div className="lg:col-span-6 space-y-10">
-              <div className="space-y-6">
+              <div className="space-y-4 md:space-y-6">
                 <h2 className="text-4xl md:text-5xl font-bold text-secondary tracking-tighter">
                   Key Features
                 </h2>
-                <p className="text-secondary/60 text-lg leading-relaxed">
+                <p className="text-secondary/60 text-base md:text-lg leading-relaxed">
                   We&apos;ve engineered this solution with a focus on
                   performance, scalability, and user-centric design.
                 </p>
@@ -342,7 +342,7 @@ const ProductDetailsContent = ({ product }: Props) => {
       </section>
 
       {/* Testimonial */}
-      <section className="py-20 bg-white">
+      <section className="py-6 md:py-10 lg:py-16 xl:py-20 bg-white">
         <Container>
           <div className="max-w-4xl mx-auto text-center space-y-10">
             <div className="flex justify-center gap-1">
@@ -367,10 +367,10 @@ const ProductDetailsContent = ({ product }: Props) => {
 
       {/* Related Products */}
       {relatedProducts.length > 0 && (
-        <section className="py-20 bg-[#F8F8F8] border-t border-accent">
+        <section className="py-6 md:py-10 lg:py-16 xl:py-20 bg-[#F8F8F8] border-t border-accent">
           <Container>
-            <div className="flex justify-between items-end mb-16">
-              <div className="space-y-4">
+            <div className="flex justify-between items-end mb-12 md:mb-16">
+              <div className="space-y-2 md:space-y-4">
                 <h2 className="text-4xl md:text-5xl font-bold text-secondary tracking-tighter">
                   Related Projects
                 </h2>
@@ -395,7 +395,7 @@ const ProductDetailsContent = ({ product }: Props) => {
                   className="group cursor-pointer"
                 >
                   {/* Image Container */}
-                  <div className="relative aspect-[4/3] rounded-[32px] overflow-hidden mb-8 transition-transform duration-500 ease-out group-hover:-translate-y-2 border border-accent">
+                  <div className="relative aspect-[4/3] bg-white rounded-[32px] overflow-hidden mb-8 transition-transform duration-500 ease-out group-hover:-translate-y-2 border border-accent">
                     <Image
                       src={related.images[0]}
                       alt={related.title}
@@ -424,7 +424,7 @@ const ProductDetailsContent = ({ product }: Props) => {
       )}
 
       {/* CTA Section */}
-      <section className="py-20 bg-secondary">
+      <section className="py-6 md:py-10 lg:py-16 xl:py-20 bg-secondary">
         <Container>
           <div className="text-center space-y-8 max-w-3xl mx-auto">
             <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tighter">
@@ -436,7 +436,7 @@ const ProductDetailsContent = ({ product }: Props) => {
             </p>
             <Link
               href="/#contact"
-              className="inline-flex items-center gap-3 bg-primary text-white px-10 py-5 rounded-full text-sm font-bold tracking-widest hover:bg-opacity-90 transition-all group shadow-lg shadow-primary/20"
+              className="inline-flex items-center gap-3 bg-primary text-white px-6 md:px-10 py-3 md:py-5 rounded-full text-sm font-bold tracking-widest hover:bg-opacity-90 transition-all group shadow-lg shadow-primary/20"
             >
               LET&apos;S TALK
               <MdArrowOutward className="text-xl group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />

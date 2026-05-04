@@ -11,7 +11,7 @@ import {
 import { MdPhone, MdLocationOn, MdEmail } from "react-icons/md";
 import Container from "@/components/shared/layout/Container";
 import footerBg from "@/assets/images/footer/footer_bg.webp";
-import Logo from "@/assets/logo/logo3.png";
+import Logo from "@/assets/logo/logo4.png";
 
 const Footer = () => {
   const socialLinks = [

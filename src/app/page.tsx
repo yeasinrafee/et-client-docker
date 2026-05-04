@@ -4,6 +4,7 @@ import Contact from "@/components/home/contact/Contact";
 import Industries from "@/components/home/industries/Industries";
 import OurApproach from "@/components/home/ourApproach/OurApproach";
 import OurProducts from "@/components/home/ourProducts/OurProducts";
+import OurDemos from "@/components/home/ourDemos/OurDemos";
 import Reviews from "@/components/home/reviews/Reviews";
 import Services from "@/components/home/services/Services";
 import Stack from "@/components/home/stack/Stack";
@@ -18,6 +19,7 @@ export default function Home() {
       <Industries />
       <WhyChooseUs />
       <OurProducts />
+      <OurDemos />
       <Stack />
       <OurApproach />
       <Reviews />

@@ -39,14 +39,17 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="relative z-20 -mb-20 pt-12 sm:pt-16">
+    <section id="contact" className="relative z-20 -mb-20 pt-12 sm:pt-16 ">
       <Container>
         <div className="w-full sm:w-[90%] md:w-[80%] lg:w-[65%] xl:w-[60%] mx-auto bg-secondary p-6 sm:p-10 md:p-12 lg:p-16 rounded-[28px] sm:rounded-[36px] md:rounded-[48px] shadow-2xl">
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tighter leading-tight mb-8 sm:mb-10 md:mb-12">
             Start growing your business with us
           </h2>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 sm:space-y-8">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="space-y-6 sm:space-y-8"
+          >
             {/* Name Field */}
             <div className="space-y-2 group">
               <label className="text-white/40 text-xs sm:text-sm font-medium tracking-wide block transition-colors group-focus-within:text-primary">

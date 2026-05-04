@@ -10,7 +10,7 @@ const Services = () => {
   const [activeService, setActiveService] = useState(servicesData[0]);
 
   return (
-    <section className="py-16 sm:py-20 md:py-24 bg-white overflow-hidden">
+    <section id="services" className="py-16 sm:py-20 md:py-24 bg-white overflow-hidden">
       <Container>
         <div className="grid lg:grid-cols-12 gap-10 sm:gap-12 lg:gap-16 items-start">
           {/* Left Side: Service List */}

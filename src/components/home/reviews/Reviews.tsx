@@ -3,11 +3,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
-import {
-  MdArrowBack,
-  MdArrowForward,
-  MdStar,
-} from "react-icons/md";
+import { MdArrowBack, MdArrowForward, MdStar } from "react-icons/md";
 import Image from "next/image";
 import Container from "@/components/shared/layout/Container";
 import { reviewsData } from "@/data/reviewsData";
@@ -45,7 +41,7 @@ const Reviews = () => {
   }, [emblaApi, onSelect]);
 
   return (
-    <section className="py-12 sm:py-16 md:py-20 bg-white overflow-hidden border-b border-accent">
+    <section className="py-12 sm:py-16 md:py-20 bg-[#F8F8F8] border-b border-accent">
       <Container>
         {/* Header Section */}
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6 sm:gap-8 lg:gap-10 mb-12 sm:mb-16 md:mb-20">
@@ -81,7 +77,7 @@ const Reviews = () => {
                     selectedIndex === index ? "opacity-100" : "opacity-30"
                   }`}
                 >
-                  <div className="bg-[#F8F8F8] p-6 sm:p-8 md:p-10 rounded-[24px] sm:rounded-[32px] flex flex-col justify-between space-y-6 sm:space-y-8 min-h-[280px] sm:min-h-[320px] md:min-h-[350px]">
+                  <div className="bg-white p-6 sm:p-8 md:p-10 rounded-[24px] sm:rounded-[32px] flex flex-col justify-between space-y-6 sm:space-y-8 min-h-[280px] sm:min-h-[320px] md:min-h-[350px]">
                     <p className="text-secondary/80 text-base sm:text-lg md:text-xl font-medium leading-relaxed italic">
                       &ldquo;{review.review}&rdquo;
                     </p>
@@ -108,7 +104,10 @@ const Reviews = () => {
 
                       <div className="flex gap-0.5">
                         {[...Array(review.rating)].map((_, i) => (
-                          <MdStar key={i} className="text-primary text-base sm:text-lg" />
+                          <MdStar
+                            key={i}
+                            className="text-primary text-base sm:text-lg"
+                          />
                         ))}
                       </div>
                     </div>

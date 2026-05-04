@@ -14,7 +14,7 @@ const Industries = () => {
   ]);
 
   return (
-    <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-secondary text-white overflow-hidden">
+    <section id="industries" className="py-12 sm:py-16 md:py-20 lg:py-24 bg-secondary text-white overflow-hidden">
       <Container>
         {/* Header Section */}
         <div className="mb-8 sm:mb-10 md:mb-12">

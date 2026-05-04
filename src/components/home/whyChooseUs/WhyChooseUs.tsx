@@ -24,7 +24,7 @@ const WhyChooseUs = () => {
   ];
 
   return (
-    <section className="py-16 sm:py-20 md:py-24 bg-white border-b border-accent">
+    <section className="py-16 sm:py-20 md:py-24 bg-[#F8F8F8] border-b border-accent">
       <Container>
         {/* Top Header */}
         <div className="mb-12 sm:mb-16 md:mb-20">

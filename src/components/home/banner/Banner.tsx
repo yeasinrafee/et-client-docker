@@ -31,7 +31,7 @@ const Banner = () => {
             </h1>
 
             <p className="text-accent max-w-xl text-xs sm:text-sm md:text-base font-light leading-relaxed">
-              We worked with Orizon in a startup project. They are a
+              We worked with Emperal Tech in a startup project. They are a
               professional and flexible team with different experience in many
               frameworks.
             </p>
@@ -40,7 +40,7 @@ const Banner = () => {
           {/* Circular CTA */}
           <div className="lg:col-span-4 flex justify-start lg:justify-end">
             <Link
-              href="/#contact"
+              href="/contact"
               className="group relative w-24 h-24 sm:w-40 sm:h-40 md:w-48 md:h-48 xl:w-56 xl:h-56 rounded-full bg-primary text-white flex flex-col items-center justify-center p-4 sm:p-8 text-center transition-transform hover:scale-105 duration-500 shadow-2xl shadow-primary/20"
             >
               <MdArrowOutward className="text-xl sm:text-3xl md:text-4xl mb-2 sm:mb-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />

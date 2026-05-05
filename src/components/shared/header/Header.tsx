@@ -16,11 +16,11 @@ const Header = () => {
 
   const navLinks = [
     { name: "HOME", href: "/" },
-    { name: "ABOUT US", href: "/#about" },
+    { name: "SERVICES", href: "/services" },
     { name: "INDUSTRIES", href: "/#industries" },
-    { name: "SERVICES", href: "/#services" },
-    { name: "PRODUCTS", href: "/#products" },
-    { name: "DEMOS", href: "/#demos" },
+    { name: "PRODUCTS", href: "/products" },
+    { name: "DEMOS", href: "/demos" },
+    { name: "ABOUT US", href: "/about" },
   ];
 
   const handleNavClick = (
@@ -54,7 +54,7 @@ const Header = () => {
         <Link href="/" className="flex items-center gap-2 relative z-10">
           <Image
             src={Logo}
-            alt="ORIZON Logo"
+            alt="Emperal Tech Logo"
             width={250}
             height={50}
             priority
@@ -84,8 +84,8 @@ const Header = () => {
             </span>
           </div>
           <Link
-            href="/#contact"
-            className="hidden lg:flex items-center gap-2 bg-primary text-white px-6 py-2.5 rounded-full text-xs font-bold hover:bg-opacity-90 transition-all"
+            href="/contact"
+            className="hidden uppercase lg:flex items-center gap-2 bg-primary text-white px-6 py-2.5 rounded-full text-xs font-bold hover:bg-opacity-90 transition-all"
           >
             Contact us <MdArrowOutward className="text-sm" />
           </Link>
@@ -131,9 +131,9 @@ const Header = () => {
 
           {/* Contact Button in Drawer */}
           <Link
-            href="/#contact"
+            href="/contact"
             onClick={() => setIsMenuOpen(false)}
-            className="mt-auto flex items-center justify-center gap-2 bg-primary text-white w-full py-4 rounded-full text-sm font-bold tracking-widest hover:bg-opacity-90 transition-all"
+            className="mt-auto uppercase flex items-center justify-center gap-2 bg-primary text-white w-full py-4 rounded-full text-sm font-bold tracking-widest hover:bg-opacity-90 transition-all"
           >
             Contact us <MdArrowOutward className="text-sm" />
           </Link>

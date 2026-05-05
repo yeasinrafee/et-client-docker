@@ -148,7 +148,7 @@ const Contact = () => {
                 </div>
                 <span className="text-white/40 text-xs sm:text-sm leading-tight transition-colors group-hover:text-white/60">
                   I agree that my personal information will be processed and
-                  stored by Orizon.
+                  stored by Emperal Tech.
                 </span>
               </label>
               {errors.consent && (
@@ -159,7 +159,7 @@ const Contact = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="bg-primary hover:bg-primary/90 text-white px-8 sm:px-10 py-4 sm:py-5 rounded-full text-xs sm:text-sm font-bold tracking-widest uppercase transition-all transform hover:scale-105 shadow-xl shadow-orange-500/10 active:scale-95"
+              className="bg-primary hover:bg-primary/90 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full text-[10px] sm:text-sm font-bold tracking-widest uppercase transition-all transform hover:scale-105 shadow-xl shadow-orange-500/10 active:scale-95"
             >
               SEND MESSAGE
             </button>

@@ -7,7 +7,7 @@ html {
 :root {
   --background: #ffffff;
   --foreground: #181818;
-  --primary: #00bcd4;
+  --primary: #16c1bb;
   --secondary: #181818;
   --accent: #eeeeee;
 }
@@ -18,7 +18,7 @@ html {
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
   --color-accent: var(--accent);
-  --color-orange: #FF5722;
+  --color-orange: #ff5722;
   --font-sans: var(--font-manrope);
 }
 

@@ -22,41 +22,38 @@ const Footer = () => {
     { icon: <FaInstagram />, href: "#" },
   ];
 
-  const consultingLinks = [
-    { name: "Discovery Phase", href: "#" },
-    { name: "Technology Consulting", href: "#" },
-    { name: "IT Audit Services", href: "#" },
+  const quickLinks = [
+    { name: "Home", href: "/" },
+    { name: "Contact Us", href: "/contact" },
+    { name: "Privacy Policy", href: "/privacy-policy" },
   ];
 
-  const productDesignLinks = [
-    { name: "Product Experience Design", href: "#" },
-    { name: "Business Analysis", href: "#" },
+  const companyLinks = [
+    { name: "About Us", href: "/about" },
+    { name: "Our Products", href: "/products" },
+    { name: "Live Demos", href: "/demos" },
   ];
 
   const servicesLinks = [
-    { name: "Evaluation & Design", href: "#" },
-    { name: "Custom Software", href: "#" },
-    { name: "Web Development", href: "#" },
-    { name: "Mobile Development", href: "#" },
-    { name: "Maintenance & Support", href: "#" },
-    { name: "Integration Services", href: "#" },
-    { name: "Cloud Infrastructure", href: "#" },
-  ];
-
-  const aboutLinks = [
-    { name: "About us", href: "#" },
-    { name: "Case Studies", href: "#" },
+    { name: "Evaluation & Design", href: "/services/evaluation-and-design" },
+    { name: "Custom Software", href: "/services/custom-software" },
+    { name: "Web Development", href: "/services/web-development" },
+    { name: "Mobile Development", href: "/services/mobile-development" },
+    {
+      name: "Maintenance & Support",
+      href: "/services/maintenance-and-support",
+    },
   ];
 
   const contactInfo = [
     { icon: <MdPhone className="text-primary" />, text: "+021-5557-874" },
     {
       icon: <MdLocationOn className="text-primary" />,
-      text: "Jl. Soekarno-hatta",
+      text: "Uttara Sector 9, Dhaka",
     },
     {
       icon: <MdEmail className="text-primary" />,
-      text: "helloorizon@mail.com",
+      text: "info@emperaltech.com",
     },
   ];
 
@@ -75,21 +72,21 @@ const Footer = () => {
       </div>
 
       <Container className="relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8 mb-12">
           {/* Brand Column */}
-          <div className="lg:col-span-5 space-y-8">
+          <div className="lg:col-span-2 space-y-8">
             <Link href="/" className="flex items-center gap-2 group">
               <div className="relative w-60 h-18">
                 <Image
                   src={Logo}
-                  alt="Orizon Logo"
+                  alt="Emperal Tech Logo"
                   fill
                   className="object-contain object-left transition-transform group-hover:scale-105"
                 />
               </div>
             </Link>
             <p className="text-accent/60 text-sm max-w-xs">
-              Orizon — software product development services.
+              Emperal Tech — software product development services.
             </p>
             <div className="flex gap-4">
               {socialLinks.map((social, index) => (
@@ -104,14 +101,14 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Consulting & Product Design Column */}
-          <div className="lg:col-span-3 space-y-8">
+          {/* Company & Quick Links Column */}
+          <div className="lg:col-span-1 space-y-8">
             <div className="space-y-4">
               <h4 className="text-lg font-bold uppercase tracking-wider">
-                Consulting
+                Company
               </h4>
               <ul className="space-y-3">
-                {consultingLinks.map((link, index) => (
+                {companyLinks.map((link, index) => (
                   <li key={index}>
                     <Link
                       href={link.href}
@@ -125,10 +122,10 @@ const Footer = () => {
             </div>
             <div className="space-y-4">
               <h4 className="text-lg font-bold uppercase tracking-wider">
-                Product design
+                Quick Links
               </h4>
               <ul className="space-y-3">
-                {productDesignLinks.map((link, index) => (
+                {quickLinks.map((link, index) => (
                   <li key={index}>
                     <Link
                       href={link.href}
@@ -143,7 +140,7 @@ const Footer = () => {
           </div>
 
           {/* Services Column */}
-          <div className="lg:col-span-2 space-y-4">
+          <div className="lg:col-span-1 space-y-4">
             <h4 className="text-lg font-bold uppercase tracking-wider">
               Services
             </h4>
@@ -161,25 +158,8 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* About & Contact Column */}
-          <div className="lg:col-span-2 space-y-8">
-            <div className="space-y-4">
-              <h4 className="text-lg font-bold uppercase tracking-wider">
-                About us
-              </h4>
-              <ul className="space-y-3">
-                {aboutLinks.map((link, index) => (
-                  <li key={index}>
-                    <Link
-                      href={link.href}
-                      className="text-accent/50 text-sm hover:text-primary transition-colors"
-                    >
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          {/* Contact Info Column */}
+          <div className="lg:col-span-1 space-y-8">
             <div className="space-y-4">
               <h4 className="text-lg font-bold uppercase tracking-wider">
                 Contact us
@@ -188,10 +168,10 @@ const Footer = () => {
                 {contactInfo.map((info, index) => (
                   <li
                     key={index}
-                    className="flex items-center gap-3 text-accent/50 text-sm"
+                    className="flex items-start gap-3 text-accent/50 text-sm"
                   >
-                    <span className="text-xl">{info.icon}</span>
-                    {info.text}
+                    <span className="text-xl mt-0.5">{info.icon}</span>
+                    <span className="leading-relaxed">{info.text}</span>
                   </li>
                 ))}
               </ul>
@@ -216,7 +196,7 @@ const Footer = () => {
             </Link>
           </div>
           <p className="text-[10px] font-bold tracking-widest uppercase text-accent/40 text-center md:text-right">
-            COPYRIGHT © 2023 ORIZON | POWERED BY ONECONTRIBUTOR
+            COPYRIGHT © 2024 EMPERAL TECH | POWERED BY ONECONTRIBUTOR
           </p>
         </div>
       </Container>

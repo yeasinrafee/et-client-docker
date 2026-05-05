@@ -5,6 +5,7 @@ import Image from "next/image";
 import { MdArrowOutward, MdCheckCircle } from "react-icons/md";
 import Container from "@/components/shared/layout/Container";
 import { approachData } from "@/data/approachData";
+import Link from "next/link";
 
 const OurApproach = () => {
   const [activeStep, setActiveStep] = useState(approachData[0]);
@@ -18,10 +19,13 @@ const OurApproach = () => {
             <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter uppercase">
               Our Approach
             </h2>
-            <button className="flex items-center gap-3 bg-primary text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full text-[10px] sm:text-xs font-bold tracking-widest hover:bg-opacity-90 transition-all group shadow-lg shadow-primary/20">
+            <Link
+              href="/products"
+              className="flex items-center gap-3 bg-primary text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full text-[10px] sm:text-xs font-bold tracking-widest hover:bg-opacity-90 transition-all group shadow-lg shadow-primary/20 max-w-fit"
+            >
               DISCOVER NOW
               <MdArrowOutward className="text-lg sm:text-xl group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-            </button>
+            </Link>
           </div>
           <div className="md:col-span-4">
             <p className="text-accent/50 text-xs sm:text-sm leading-relaxed max-w-sm md:ml-auto">

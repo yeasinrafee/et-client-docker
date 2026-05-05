@@ -56,7 +56,7 @@ const ScrollToTop = () => {
         >
           <path
             d="M1.5 24L0 22.7368L12 0L24 22.7368L22.5 24L12 20.2105L1.5 24Z"
-            fill="#00bcd4"
+            fill="#16c1bb"
             fillOpacity="0.75"
           />
         </svg>
@@ -71,7 +71,7 @@ const ScrollToTop = () => {
               cy="16"
               r="14"
               fill="none"
-              stroke="#00bcd4"
+              stroke="#16c1bb"
               strokeOpacity="0.75"
               strokeWidth="2"
               strokeDasharray={`${scrollProgress}, 100`}

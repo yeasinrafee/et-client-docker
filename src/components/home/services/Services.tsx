@@ -87,7 +87,7 @@ const Services = () => {
 
               {/* Card Image Bottom with Primary Background */}
               <div className="relative bg-primary h-[200px] sm:h-[250px] md:h-[300px] lg:h-[350px] flex items-center justify-center p-6 sm:p-8 pt-0">
-                <div className="relative w-full h-[120%] -mt-12 sm:-mt-16 md:-mt-20 lg:-mt-24 transform transition-transform duration-700 hover:scale-105">
+                <div className="relative w-full h-[120%] mt-8 md:-mt-20 lg:-mt-24 transform transition-transform duration-700 hover:scale-105">
                   <Image
                     src={activeService.image}
                     alt={activeService.title}

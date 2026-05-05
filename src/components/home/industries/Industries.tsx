@@ -7,6 +7,7 @@ import Autoplay from "embla-carousel-autoplay";
 import { MdArrowOutward } from "react-icons/md";
 import Container from "@/components/shared/layout/Container";
 import { industriesData } from "@/data/industriesData";
+import Link from "next/link";
 
 const Industries = () => {
   const [emblaRef] = useEmblaCarousel({ loop: true, align: "start" }, [
@@ -35,10 +36,13 @@ const Industries = () => {
               development solutions tailored to their unique needs, helping
               businesses transform and thrive in the digital age.
             </p>
-            <button className="flex items-center gap-3 bg-primary text-white px-6 sm:px-8 py-3 rounded-full text-[10px] font-bold tracking-widest hover:bg-opacity-90 transition-all group">
-              DISCOVER NOW
+            <Link
+              href="/contact"
+              className="flex uppercase items-center gap-3 bg-primary text-white px-6 sm:px-8 py-3 rounded-full text-[10px] font-bold tracking-widest hover:bg-opacity-90 transition-all group max-w-fit"
+            >
+              Contact Us
               <MdArrowOutward className="text-lg group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-            </button>
+            </Link>
           </div>
 
           {/* Right Column: Carousel */}

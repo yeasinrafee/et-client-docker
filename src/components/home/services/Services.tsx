@@ -89,7 +89,7 @@ const Services = () => {
               <div className="relative bg-primary h-[200px] sm:h-[250px] md:h-[300px] lg:h-[350px] flex items-center justify-center p-6 sm:p-8 pt-0">
                 <div className="relative w-full h-[120%] mt-8 md:-mt-20 lg:-mt-24 transform transition-transform duration-700 hover:scale-105">
                   <Image
-                    src={activeService.image}
+                    src={activeService.images[0]}
                     alt={activeService.title}
                     fill
                     className="object-contain drop-shadow-2xl"

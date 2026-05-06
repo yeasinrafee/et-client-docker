@@ -40,9 +40,12 @@ const ProductDetailsContent = ({ product }: Props) => {
     }
   }, [emblaApi, activeImage]);
 
-  // Get related products (same tag, exclude current)
+  // Get related products (sharing at least one tag, exclude current)
   const relatedProducts = productsData
-    .filter((p) => p.tag === product.tag && p.id !== product.id)
+    .filter(
+      (p) =>
+        p.tags.some((t) => product.tags.includes(t)) && p.id !== product.id,
+    )
     .slice(0, 3);
 
   return (
@@ -164,9 +167,14 @@ const ProductDetailsContent = ({ product }: Props) => {
                 <span className="px-4 py-2 bg-primary/5 text-primary text-xs font-bold tracking-widest rounded-full border border-primary/10 uppercase">
                   {product.category}
                 </span>
-                <span className="px-4 py-2 bg-secondary/5 text-secondary/70 text-xs font-bold tracking-widest rounded-full border border-secondary/10 uppercase">
-                  {product.tag}
-                </span>
+                {product.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-4 py-2 bg-secondary/5 text-secondary/70 text-xs font-bold tracking-widest rounded-full border border-secondary/10 uppercase"
+                  >
+                    {tag}
+                  </span>
+                ))}
               </div>
 
               {/* Title */}
@@ -375,7 +383,7 @@ const ProductDetailsContent = ({ product }: Props) => {
                   Related Projects
                 </h2>
                 <p className="text-secondary/40 text-lg">
-                  More work in {product.tag.toLowerCase()}
+                  More work in {product.tags[0].toLowerCase()}
                 </p>
               </div>
               <Link
@@ -404,7 +412,7 @@ const ProductDetailsContent = ({ product }: Props) => {
                     />
                     <div className="absolute bottom-6 left-6">
                       <span className="px-4 py-2 bg-black/40 backdrop-blur-md text-white text-[10px] font-bold tracking-widest rounded-full border border-white/20 uppercase">
-                        {related.tag}
+                        {related.tags[0]}
                       </span>
                     </div>
                   </div>

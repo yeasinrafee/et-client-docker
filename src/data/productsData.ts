@@ -10,7 +10,7 @@ export const productsData = [
     slug: "workflow-system-energy",
     title: "Workflow System Energy",
     category: "OIL & GAS",
-    tag: "WEB DEVELOPMENT",
+    tags: ["WEB DEVELOPMENT"],
     images: [s1, s2, s3, s4],
     description:
       "A comprehensive workflow management system for energy sector optimization.",
@@ -54,7 +54,7 @@ export const productsData = [
     slug: "saas-for-end-to-end-analytics",
     title: "SaaS for End to-End Analytics",
     category: "ECOMMERCE",
-    tag: "CUSTOM SOFTWARE",
+    tags: ["CUSTOM SOFTWARE"],
     images: [s2, s3, s4],
     description:
       "Real-time analytics platform for modern e-commerce businesses.",
@@ -97,7 +97,7 @@ export const productsData = [
     slug: "workload-management",
     title: "Workload Management",
     category: "WEB DEVELOPMENT",
-    tag: "CUSTOM SOFTWARE",
+    tags: ["CUSTOM SOFTWARE"],
     images: [s3, s1, s5],
     description:
       "Efficient workload distribution and tracking for enterprise teams.",
@@ -140,7 +140,7 @@ export const productsData = [
     slug: "fintech-mobile-wallet",
     title: "Fintech Mobile Wallet",
     category: "FINANCE",
-    tag: "MOBILE DEVELOPMENT",
+    tags: ["MOBILE DEVELOPMENT"],
     images: [s4, s5, s1],
     description:
       "Secure and intuitive mobile payment solution with global reach.",
@@ -183,7 +183,7 @@ export const productsData = [
     slug: "healthtech-patient-portal",
     title: "HealthTech Patient Portal",
     category: "HEALTHCARE",
-    tag: "WEB DEVELOPMENT",
+    tags: ["WEB DEVELOPMENT"],
     images: [s5, s4, s2],
     description:
       "Centralized platform for patient management and digital health records.",
@@ -226,7 +226,7 @@ export const productsData = [
     slug: "ai-logistics-optimizer",
     title: "AI Logistics Optimizer",
     category: "LOGISTICS",
-    tag: "CUSTOM SOFTWARE",
+    tags: ["CUSTOM SOFTWARE"],
     images: [s1, s3, s4],
     description:
       "Artificial intelligence driven supply chain and route optimization.",
@@ -269,7 +269,7 @@ export const productsData = [
     slug: "edtech-learning-system",
     title: "EdTech Learning System",
     category: "EDUCATION",
-    tag: "WEB DEVELOPMENT",
+    tags: ["WEB DEVELOPMENT"],
     images: [s2, s5, s1],
     description:
       "Interactive learning management system for schools and universities.",
@@ -312,7 +312,7 @@ export const productsData = [
     slug: "real-estate-crm",
     title: "Real Estate CRM",
     category: "REAL ESTATE",
-    tag: "CUSTOM SOFTWARE",
+    tags: ["CUSTOM SOFTWARE"],
     images: [s3, s2, s4],
     description:
       "Specialized customer relationship management for property agents.",
@@ -355,7 +355,7 @@ export const productsData = [
     slug: "cybersecurity-shield",
     title: "CyberSecurity Shield",
     category: "SECURITY",
-    tag: "CUSTOM SOFTWARE",
+    tags: ["CUSTOM SOFTWARE"],
     images: [s4, s1, s3],
     description:
       "Advanced threat detection and prevention system for corporations.",
@@ -399,7 +399,7 @@ export const productsData = [
     slug: "marketing-automation-pro",
     title: "Marketing Automation Pro",
     category: "MARKETING",
-    tag: "WEB DEVELOPMENT",
+    tags: ["WEB DEVELOPMENT"],
     images: [s5, s2, s3],
     description:
       "All-in-one marketing campaign management and automation tool.",

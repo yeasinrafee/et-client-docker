@@ -35,7 +35,7 @@ const AllServices = () => {
                 <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-500" />
                 <div className="relative w-full h-full transform group-hover:scale-110 transition-transform duration-700 ease-out">
                   <Image
-                    src={service.image}
+                    src={service.images[0]}
                     alt={service.title}
                     fill
                     className="object-contain drop-shadow-2xl"

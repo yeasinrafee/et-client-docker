@@ -20,7 +20,6 @@ export const servicesData = [
     ],
     description:
       "We provide innovative software solutions to a wide range of industries, helping businesses transform their operations and achieve their goals through meticulous evaluation and user-centric design processes.",
-    image: s1,
     images: [s1, s2, s3],
     longDescription:
       "Our Evaluation & Design service is the cornerstone of building successful digital products. We don't just jump into code; we take the time to understand your business goals, user needs, and market landscape. Through rigorous research, collaborative scoping sessions, and rapid prototyping, we craft beautiful, intuitive, and highly functional designs that resonate with your target audience and set a solid foundation for development.",
@@ -56,7 +55,6 @@ export const servicesData = [
     ],
     description:
       "Our team builds scalable, high-performance custom software tailored to your unique business requirements, ensuring long-term success and competitive advantage.",
-    image: s2,
     images: [s2, s4, s5],
     longDescription:
       "Off-the-shelf software rarely fits the complex, unique workflows of a growing enterprise. Our Custom Software development service bridges that gap. We engineer robust, scalable, and secure applications tailored specifically to your operational needs. Whether you're looking to automate internal processes, build a scalable SaaS platform, or modernize legacy systems, our expert engineering team utilizes the latest cloud-native architectures and microservices to deliver software that drives real business value.",
@@ -93,7 +91,6 @@ export const servicesData = [
     ],
     description:
       "Crafting modern, responsive, and blazing-fast web applications using the latest technologies to deliver an exceptional user experience across all devices.",
-    image: s3,
     images: [s3, s1, s2],
     longDescription:
       "Your website is often the first interaction a customer has with your brand. We build web applications that leave a lasting impression. Using modern frameworks like Next.js and React, coupled with robust backend solutions, we create blazing-fast, highly interactive, and SEO-optimized web platforms. From complex e-commerce systems to dynamic content management portals, our web development service ensures your online presence is powerful, secure, and accessible on any device.",
@@ -129,7 +126,6 @@ export const servicesData = [
     ],
     description:
       "Developing native and cross-platform mobile applications that are intuitive, secure, and highly engaging for your users, from concept to deployment.",
-    image: s4,
     images: [s4, s5, s3],
     longDescription:
       "Reach your users wherever they are with our premier Mobile Development services. We specialize in building high-performance iOS and Android applications. Whether you need a cross-platform solution using React Native for faster time-to-market or a fully native app for maximum performance, we deliver seamless mobile experiences. We handle the entire lifecycle, from UX design tailored for touch interfaces to navigating the complexities of App Store and Google Play submissions.",
@@ -165,7 +161,6 @@ export const servicesData = [
     ],
     description:
       "Ensuring your software remains reliable, secure, and up-to-date with our comprehensive maintenance and support services, so you can focus on your core business.",
-    image: s5,
     images: [s5, s2, s1],
     longDescription:
       "Software isn't a 'set it and forget it' investment. To maintain its value, security, and performance, continuous care is required. Our Maintenance & Support service acts as your extended technical team. We provide proactive monitoring, rapid bug resolution, security patching, and strategic upgrades. We ensure your critical systems experience maximum uptime and evolve seamlessly alongside your growing business needs, giving you total peace of mind.",

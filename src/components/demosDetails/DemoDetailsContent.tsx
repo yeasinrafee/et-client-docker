@@ -137,6 +137,22 @@ const DemoDetailsContent = ({ demo }: Props) => {
                   {demo.category}
                 </span>
               </div>
+              
+              <div>
+                <h3 className="text-sm font-bold text-secondary/40 tracking-widest uppercase mb-4">
+                  Tags
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {demo.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="px-4 py-2 bg-primary/5 text-primary border border-primary/10 text-xs font-bold tracking-wider rounded-full"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
 
               <Link
                 href={demo.demoUrl}

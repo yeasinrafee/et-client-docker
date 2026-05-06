@@ -8,9 +8,9 @@ import { MdLocationOn, MdEmail } from "react-icons/md";
 import Container from "@/components/shared/layout/Container";
 
 const contactSchema = z.object({
-  name: z.string().optional(),
+  name: z.string().min(1, "Name is required"),
+  phone: z.string().min(1, "Phone number is required"),
   email: z.string().email("Invalid email address"),
-  subject: z.string().optional(),
   message: z.string().min(10, "Message must be at least 10 characters"),
 });
 
@@ -127,8 +127,14 @@ const ContactUs = () => {
                 <FormInput
                   register={register}
                   name="name"
-                  placeholder="Your Name (Optional)"
+                  placeholder="Your Name *"
                   error={errors.name}
+                />
+                <FormInput
+                  register={register}
+                  name="phone"
+                  placeholder="Your Phone *"
+                  error={errors.phone}
                 />
                 <FormInput
                   register={register}
@@ -136,12 +142,6 @@ const ContactUs = () => {
                   type="email"
                   placeholder="Your Email *"
                   error={errors.email}
-                />
-                <FormInput
-                  register={register}
-                  name="subject"
-                  placeholder="Your Subject (Optional)"
-                  error={errors.subject}
                 />
                 <FormInput
                   register={register}

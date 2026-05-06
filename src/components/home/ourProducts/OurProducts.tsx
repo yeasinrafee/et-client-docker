@@ -47,7 +47,7 @@ const OurProducts = () => {
                 {/* Tag Overlay */}
                 <div className="absolute bottom-6 left-6">
                   <span className="px-4 py-2 bg-black/40 backdrop-blur-md text-white text-[10px] font-bold tracking-widest rounded-full border border-white/20 uppercase">
-                    {product.tag}
+                    {product.tags[0]}
                   </span>
                 </div>
               </div>

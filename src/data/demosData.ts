@@ -10,7 +10,7 @@ export const demosData = [
     slug: "e-commerce-dashboard",
     title: "E-Commerce Admin Dashboard",
     category: "ADMIN PANEL",
-    tag: "WEB APP",
+    tags: ["WEB APP"],
     images: [s1, s2, s3, s4, s5],
     featureImage: s1,
     description:
@@ -29,7 +29,7 @@ export const demosData = [
     slug: "healthcare-patient-portal",
     title: "Healthcare Patient Portal",
     category: "HEALTHCARE",
-    tag: "PORTAL",
+    tags: ["PORTAL"],
     images: [s2, s4, s5],
     featureImage: s2,
     description:
@@ -48,7 +48,7 @@ export const demosData = [
     slug: "fintech-landing-page",
     title: "Fintech Landing Page",
     category: "FINANCE",
-    tag: "LANDING PAGE",
+    tags: ["LANDING PAGE"],
     images: [s3, s1, s4],
     featureImage: s3,
     description:
@@ -67,7 +67,7 @@ export const demosData = [
     slug: "real-estate-directory",
     title: "Real Estate Property Directory",
     category: "REAL ESTATE",
-    tag: "DIRECTORY",
+    tags: ["DIRECTORY"],
     images: [s4, s2, s5],
     featureImage: s4,
     description:
@@ -86,7 +86,7 @@ export const demosData = [
     slug: "saas-analytics-tool",
     title: "SaaS Analytics Platform",
     category: "ANALYTICS",
-    tag: "SAAS",
+    tags: ["SAAS"],
     images: [s5, s1, s3],
     featureImage: s5,
     description:

@@ -49,7 +49,7 @@ const ServiceDetailsContent = ({ service }: Props) => {
         subtitle={service.description}
         buttonText="CONSULT WITH US"
         buttonHref="/#contact"
-        bgImage={service.image}
+        bgImage={service.images[0]}
       />
 
       {/* Breadcrumb & Navigation */}

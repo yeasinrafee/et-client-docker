@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Manrope } from "next/font/google";
+import { Manrope, Geist } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/shared/header/Header";
-import Footer from "@/components/shared/footer/Footer";
-import ScrollToTop from "@/components/ui/ScrollToTop";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -24,14 +24,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${manrope.variable} h-full antialiased`}
+      className={cn("h-full", "antialiased", manrope.variable, "font-sans", geist.variable)}
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
-        <Header />
         {children}
-        <Footer />
-        <ScrollToTop />
       </body>
     </html>
   );

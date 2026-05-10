@@ -106,36 +106,38 @@ export default function DemoCategoriesPage() {
         <h1 className="text-2xl font-bold">Manage Demo Categories</h1>
       </div>
 
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-6 py-4">
         <SearchBar value={search} onChange={(val) => { setSearch(val); setPage(1); }} />
-        <Button onClick={() => setIsCreateOpen(true)}>
-          <Plus className="mr-2 h-4 w-4" /> Create
+        <Button onClick={() => setIsCreateOpen(true)} className="bg-[#1677ff] hover:bg-[#0f62d9] text-white h-10 px-4 py-2">
+          <Plus className="mr-2 h-4 w-4" /> Create Category
         </Button>
       </div>
 
-      <div className="rounded-md border bg-white dark:bg-black overflow-hidden">
+      <div className="rounded-lg border border-gray-200 bg-white overflow-hidden">
         <Table>
-          <TableHeader>
+          <TableHeader className="bg-gray-50/50">
             <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Slug</TableHead>
-              <TableHead className="w-[100px] text-right">Actions</TableHead>
+              <TableHead className="w-[60px] font-semibold text-gray-700">#</TableHead>
+              <TableHead className="font-semibold text-gray-700">Name</TableHead>
+              <TableHead className="font-semibold text-gray-700">Slug</TableHead>
+              <TableHead className="w-[100px] text-right font-semibold text-gray-700">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {isLoading ? (
               <TableRow>
-                <TableCell colSpan={3} className="text-center h-24">Loading...</TableCell>
+                <TableCell colSpan={4} className="text-center h-24">Loading...</TableCell>
               </TableRow>
             ) : items.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={3} className="text-center h-24">No data found.</TableCell>
+                <TableCell colSpan={4} className="text-center h-24">No data found.</TableCell>
               </TableRow>
             ) : (
-              items.map((item: any) => (
-                <TableRow key={item._id}>
-                  <TableCell className="font-medium">{item.name}</TableCell>
-                  <TableCell>{item.slug}</TableCell>
+              items.map((item: any, index: number) => (
+                <TableRow key={item._id} className="hover:bg-gray-50/50">
+                  <TableCell className="font-medium text-gray-500">{(page - 1) * limit + index + 1}</TableCell>
+                  <TableCell className="font-medium text-gray-900">{item.name}</TableCell>
+                  <TableCell className="text-gray-600">{item.slug}</TableCell>
                   <TableCell className="text-right">
                     <ActionMenu
                       onView={() => openView(item)}
@@ -150,19 +152,21 @@ export default function DemoCategoriesPage() {
         </Table>
       </div>
 
-      <PaginationControls
-        currentPage={page}
-        totalPages={totalPages}
-        onPageChange={setPage}
-      />
+      <div className="mt-4">
+        <PaginationControls
+          currentPage={page}
+          totalPages={totalPages}
+          onPageChange={setPage}
+        />
+      </div>
 
       {/* Create Modal */}
       <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
-        <DialogContent>
+        <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Create Demo Category</DialogTitle>
           </DialogHeader>
-          <form onSubmit={handleCreate} className="space-y-4">
+          <form onSubmit={handleCreate} className="space-y-4 mt-4">
             <div className="space-y-2">
               <Label htmlFor="name">Name</Label>
               <Input
@@ -181,20 +185,23 @@ export default function DemoCategoriesPage() {
                 required
               />
             </div>
-            <Button type="submit" className="w-full" disabled={createMutation.isPending}>
-              {createMutation.isPending ? "Creating..." : "Create"}
-            </Button>
+            <div className="flex justify-end gap-3 pt-4 border-t">
+              <Button type="button" variant="outline" onClick={() => setIsCreateOpen(false)}>Cancel</Button>
+              <Button type="submit" className="bg-[#1677ff] hover:bg-[#0f62d9] text-white" disabled={createMutation.isPending}>
+                {createMutation.isPending ? "Creating..." : "Create"}
+              </Button>
+            </div>
           </form>
         </DialogContent>
       </Dialog>
 
       {/* Edit Modal */}
       <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
-        <DialogContent>
+        <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Edit Demo Category</DialogTitle>
           </DialogHeader>
-          <form onSubmit={handleEdit} className="space-y-4">
+          <form onSubmit={handleEdit} className="space-y-4 mt-4">
             <div className="space-y-2">
               <Label htmlFor="edit-name">Name</Label>
               <Input
@@ -213,31 +220,59 @@ export default function DemoCategoriesPage() {
                 required
               />
             </div>
-            <Button type="submit" className="w-full" disabled={updateMutation.isPending}>
-              {updateMutation.isPending ? "Saving..." : "Save Changes"}
-            </Button>
+            <div className="flex justify-end gap-3 pt-4 border-t">
+              <Button type="button" variant="outline" onClick={() => setIsEditOpen(false)}>Cancel</Button>
+              <Button type="submit" className="bg-[#1677ff] hover:bg-[#0f62d9] text-white" disabled={updateMutation.isPending}>
+                {updateMutation.isPending ? "Saving..." : "Save Changes"}
+              </Button>
+            </div>
           </form>
         </DialogContent>
       </Dialog>
 
       {/* View Modal */}
       <Dialog open={isViewOpen} onOpenChange={setIsViewOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>View Demo Category</DialogTitle>
-          </DialogHeader>
-          {selectedItem && (
-            <div className="space-y-4 mt-4">
+        <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto overflow-x-hidden p-0">
+          <DialogHeader className="p-6 border-b sticky top-0 bg-white z-10">
+            <div className="flex justify-between items-start">
               <div>
-                <Label className="text-gray-500 text-sm">Name</Label>
-                <div className="font-medium text-lg">{selectedItem.name}</div>
+                <DialogTitle className="text-2xl font-bold text-gray-900">Category Details</DialogTitle>
+                <p className="text-gray-500 text-sm mt-1">View complete category information</p>
               </div>
-              <div>
-                <Label className="text-gray-500 text-sm">Slug</Label>
-                <div className="font-medium text-lg">{selectedItem.slug}</div>
+              <div className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">
+                ID: {selectedItem?._id?.slice(-8).toUpperCase() || 'N/A'}
+              </div>
+            </div>
+          </DialogHeader>
+          
+          {selectedItem && (
+            <div className="p-6 space-y-6">
+              <div className="bg-gray-50 p-5 rounded-xl border border-gray-100">
+                <div className="mb-4">
+                  <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider mb-1">Category Name</p>
+                  <h3 className="text-xl font-bold text-gray-900">{selectedItem.name || "N/A"}</h3>
+                </div>
+                
+                <div className="pt-4 border-t border-gray-200">
+                  <div className="flex items-center gap-3">
+                    <div className="bg-blue-100 p-2.5 rounded-full text-blue-600">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500 mb-0.5">Slug</p>
+                      <p className="font-medium text-gray-900 break-all">{selectedItem.slug || "N/A"}</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           )}
+          
+          <div className="p-4 border-t sticky bottom-0 bg-white z-10 flex justify-end">
+            <Button variant="outline" onClick={() => setIsViewOpen(false)} className="px-8 border-gray-300 font-medium">
+              Close
+            </Button>
+          </div>
         </DialogContent>
       </Dialog>
 

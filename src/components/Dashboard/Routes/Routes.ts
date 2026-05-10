@@ -8,7 +8,8 @@ import {
   MessageSquare,
   Star,
   PlaySquare,
-  ListTree
+  ListTree,
+  FileText,
 } from "lucide-react";
 
 export const routes = () => [
@@ -52,6 +53,11 @@ export const routes = () => [
     icon: PlaySquare,
     label: "Demos",
     href: "/dashboard/demos",
+  },
+  {
+    icon: FileText,
+    label: "Blogs",
+    href: "/dashboard/blogs",
   },
   {
     icon: MessageSquare,

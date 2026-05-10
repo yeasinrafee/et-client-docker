@@ -10,6 +10,7 @@ import {
   PlaySquare,
   ListTree,
   FileText,
+  ShoppingCart,
 } from "lucide-react";
 
 export const routes = () => [
@@ -68,5 +69,10 @@ export const routes = () => [
     icon: Star,
     label: "Reviews",
     href: "/dashboard/reviews",
+  },
+  {
+    icon: ShoppingCart,
+    label: "Orders",
+    href: "/dashboard/orders",
   },
 ];

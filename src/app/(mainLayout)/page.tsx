@@ -9,20 +9,41 @@ import Reviews from "@/components/home/reviews/Reviews";
 import Services from "@/components/home/services/Services";
 import Stack from "@/components/home/stack/Stack";
 import WhyChooseUs from "@/components/home/whyChooseUs/WhyChooseUs";
+import BlogsPreview from "@/components/home/blogs/BlogsPreview";
+import { fetchAPI } from "@/lib/api";
 
-export default function Home() {
+// Fallback imports for when API is unavailable
+import { servicesData as fallbackServices } from "@/data/servicesData";
+import { industriesData as fallbackIndustries } from "@/data/industriesData";
+import { productsData as fallbackProducts } from "@/data/productsData";
+import { demosData as fallbackDemos } from "@/data/demosData";
+import { reviewsData as fallbackReviews } from "@/data/reviewsData";
+
+export default async function Home() {
+  // Fetch all data server-side in parallel
+  const [services, industries, products, demos, reviews, blogs] =
+    await Promise.all([
+      fetchAPI("/services"),
+      fetchAPI("/industries"),
+      fetchAPI("/products"),
+      fetchAPI("/demos"),
+      fetchAPI("/reviews"),
+      fetchAPI("/blogs"),
+    ]);
+
   return (
     <div className="min-h-screen">
       <Banner />
       <Brand />
-      <Services />
-      <Industries />
+      <Services data={services || fallbackServices} />
+      <Industries data={industries || fallbackIndustries} />
       <WhyChooseUs />
-      <OurProducts />
-      <OurDemos />
+      <OurProducts data={products || fallbackProducts} />
+      <OurDemos data={demos || fallbackDemos} />
       <Stack />
       <OurApproach />
-      <Reviews />
+      <Reviews data={reviews || fallbackReviews} />
+      <BlogsPreview data={blogs || []} />
       <Contact />
     </div>
   );

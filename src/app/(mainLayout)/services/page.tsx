@@ -2,6 +2,8 @@ import AllServices from "@/components/AllServices/AllServices";
 import PageHero from "@/components/ui/PageHero";
 import React from "react";
 import bg1 from "@/assets/images/banner/bg1.gif";
+import { fetchAPI } from "@/lib/api";
+import { servicesData as fallbackServices } from "@/data/servicesData";
 
 export const metadata = {
   title: "Our Services | Emperal Tech",
@@ -9,7 +11,9 @@ export const metadata = {
     "Explore our comprehensive range of digital services, from design to development and maintenance.",
 };
 
-const ServicesPage = () => {
+const ServicesPage = async () => {
+  const services = await fetchAPI("/services");
+
   return (
     <main>
       <PageHero
@@ -19,7 +23,7 @@ const ServicesPage = () => {
         buttonText="GET IN TOUCH"
         buttonHref="/#contact"
       />
-      <AllServices />
+      <AllServices data={services || fallbackServices} />
     </main>
   );
 };

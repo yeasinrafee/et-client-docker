@@ -5,10 +5,25 @@ import Image from "next/image";
 import Link from "next/link";
 import { MdArrowOutward } from "react-icons/md";
 import Container from "@/components/shared/layout/Container";
-import { servicesData } from "@/data/servicesData";
 
-const Services = () => {
-  const [activeService, setActiveService] = useState(servicesData[0]);
+interface ServiceItem {
+  _id?: string;
+  id: string;
+  slug: string;
+  title: string;
+  tags: string[];
+  description: string;
+  images: any[];
+}
+
+interface ServicesProps {
+  data: ServiceItem[];
+}
+
+const Services = ({ data }: ServicesProps) => {
+  const [activeService, setActiveService] = useState(data[0]);
+
+  if (!data || data.length === 0) return null;
 
   return (
     <section
@@ -19,26 +34,31 @@ const Services = () => {
         <div className="grid lg:grid-cols-12 gap-6 sm:gap-12 lg:gap-16 items-start">
           {/* Left Side: Service List */}
           <div className="lg:col-span-5 flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-4 lg:pb-0 -mx-4 px-4 lg:mx-0 lg:px-0">
-            {servicesData.map((service) => (
+            {data.map((service, index) => (
               <div
-                key={service.id}
+                key={service._id || service.id}
                 onClick={() => setActiveService(service)}
                 className={`group cursor-pointer py-4 sm:py-6 border-b border-accent transition-all duration-500 flex items-center gap-3 sm:gap-4 flex-shrink-0 ${
-                  activeService.id === service.id ? "border-primary" : ""
+                  (activeService._id || activeService.id) ===
+                  (service._id || service.id)
+                    ? "border-primary"
+                    : ""
                 }`}
               >
                 <span
                   className={`text-xs sm:text-sm font-medium transition-colors duration-500 ${
-                    activeService.id === service.id
+                    (activeService._id || activeService.id) ===
+                    (service._id || service.id)
                       ? "text-primary"
                       : "text-secondary/40"
                   }`}
                 >
-                  {service.id}/
+                  {service.id || String(index + 1).padStart(2, "0")}/
                 </span>
                 <h3
                   className={`text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold transition-all duration-500 whitespace-nowrap lg:whitespace-normal ${
-                    activeService.id === service.id
+                    (activeService._id || activeService.id) ===
+                    (service._id || service.id)
                       ? "text-primary lg:translate-x-2"
                       : "text-secondary hover:translate-x-1"
                   }`}

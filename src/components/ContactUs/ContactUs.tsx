@@ -16,6 +16,9 @@ const contactSchema = z.object({
 
 type ContactFormData = z.infer<typeof contactSchema>;
 
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api/v1";
+
 const FormInput = ({
   register,
   name,
@@ -60,10 +63,23 @@ const ContactUs = () => {
     resolver: zodResolver(contactSchema),
   });
 
-  const onSubmit = (data: ContactFormData) => {
-    console.log("Contact Form Data:", data);
-    alert("Message sent successfully! We will get back to you soon.");
-    reset();
+  const onSubmit = async (data: ContactFormData) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/customer-messages`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      const result = await res.json();
+      if (result.success) {
+        alert("Message sent successfully! We will get back to you soon.");
+        reset();
+      } else {
+        alert("Failed to send message. Please try again.");
+      }
+    } catch {
+      alert("Something went wrong. Please try again later.");
+    }
   };
 
   return (

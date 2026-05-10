@@ -15,8 +15,10 @@ const contactSchema = z.object({
     message: "You must agree to the terms",
   }),
 });
-
 type ContactFormData = z.infer<typeof contactSchema>;
+
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api/v1";
 
 const Contact = () => {
   const {
@@ -31,10 +33,28 @@ const Contact = () => {
     },
   });
 
-  const onSubmit = (data: ContactFormData) => {
-    console.log("Form Data:", data);
-    alert("Message sent successfully! (Check console)");
-    reset();
+  const onSubmit = async (data: ContactFormData) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/customer-messages`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: data.name,
+          phone: data.phone,
+          email: data.email,
+          message: data.message,
+        }),
+      });
+      const result = await res.json();
+      if (result.success) {
+        alert("Message sent successfully! We will get back to you soon.");
+        reset();
+      } else {
+        alert("Failed to send message. Please try again.");
+      }
+    } catch {
+      alert("Something went wrong. Please try again later.");
+    }
   };
 
   return (

@@ -5,9 +5,24 @@ import Image from "next/image";
 import Link from "next/link";
 import { MdArrowOutward } from "react-icons/md";
 import Container from "@/components/shared/layout/Container";
-import { servicesData } from "@/data/servicesData";
 
-const AllServices = () => {
+interface ServiceItem {
+  _id?: string;
+  id?: string;
+  slug: string;
+  title: string;
+  tags: string[];
+  description: string;
+  images: any[];
+}
+
+interface AllServicesProps {
+  data: ServiceItem[];
+}
+
+const AllServices = ({ data }: AllServicesProps) => {
+  if (!data || data.length === 0) return null;
+
   return (
     <section className="py-20 bg-white">
       <Container>
@@ -24,9 +39,9 @@ const AllServices = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {servicesData.map((service, index) => (
+          {data.map((service, index) => (
             <div
-              key={service.id}
+              key={service._id || service.id}
               className="group bg-[#fcfcfc] border border-accent rounded-[32px] overflow-hidden hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500 flex flex-col h-full animate-in fade-in slide-in-from-bottom-4"
               style={{ animationDelay: `${index * 100}ms` }}
             >
@@ -48,7 +63,7 @@ const AllServices = () => {
                 <div className="space-y-4 flex-grow">
                   <div className="flex items-center justify-between">
                     <span className="text-primary font-bold text-sm tracking-widest">
-                      {service.id}/
+                      {service.id || String(index + 1).padStart(2, "0")}/
                     </span>
                     <div className="flex flex-wrap gap-2 justify-end">
                       {service.tags.slice(0, 2).map((tag) => (

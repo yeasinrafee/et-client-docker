@@ -15,17 +15,40 @@ import {
   MdCheck,
 } from "react-icons/md";
 import useEmblaCarousel from "embla-carousel-react";
-import { productsData } from "@/data/productsData";
 import Container from "@/components/shared/layout/Container";
 import PageHero from "../ui/PageHero";
 
-type Product = (typeof productsData)[number];
-
-interface Props {
-  product: Product;
+interface ProductData {
+  _id?: string;
+  id?: string;
+  title: string;
+  category?: string;
+  categories?: any[];
+  tags: string[];
+  images: string[];
+  description: string;
+  fullDescription: string;
+  challenge: string;
+  solution: string;
+  features: string[];
+  featureImage: string;
+  technologies: string[];
+  client: string;
+  launchDate?: string;
+  duration?: string;
+  teamSize?: number;
+  results?: string;
+  keyMetrics?: Array<{ label: string; value: string }>;
+  testimonial?: { quote: string; author: string; role: string };
+  slug: string;
 }
 
-const ProductDetailsContent = ({ product }: Props) => {
+interface Props {
+  product: ProductData;
+  relatedProducts?: ProductData[];
+}
+
+const ProductDetailsContent = ({ product, relatedProducts = [] }: Props) => {
   const [activeImage, setActiveImage] = useState(0);
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "start",
@@ -39,14 +62,6 @@ const ProductDetailsContent = ({ product }: Props) => {
       emblaApi.scrollTo(activeImage);
     }
   }, [emblaApi, activeImage]);
-
-  // Get related products (sharing at least one tag, exclude current)
-  const relatedProducts = productsData
-    .filter(
-      (p) =>
-        p.tags.some((t) => product.tags.includes(t)) && p.id !== product.id,
-    )
-    .slice(0, 3);
 
   return (
     <div className="min-h-screen bg-white">
@@ -202,10 +217,15 @@ const ProductDetailsContent = ({ product }: Props) => {
                     Launch Date
                   </div>
                   <p className="text-secondary font-bold">
-                    {new Date(product.launchDate).toLocaleDateString("en-US", {
-                      month: "short",
-                      year: "numeric",
-                    })}
+                    {product.launchDate
+                      ? new Date(product.launchDate).toLocaleDateString(
+                          "en-US",
+                          {
+                            month: "short",
+                            year: "numeric",
+                          }
+                        )
+                      : "N/A"}
                   </p>
                 </div>
                 <div className="space-y-2">
@@ -239,32 +259,34 @@ const ProductDetailsContent = ({ product }: Props) => {
       </section>
 
       {/* Key Metrics */}
-      <section className="py-6 md:py-10 lg:py-16 xl:py-20 bg-secondary">
-        <Container>
-          <div className="text-center space-y-4 mb-12 md:mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tighter">
-              Key Results
-            </h2>
-            <p className="text-white/40 text-lg">{product.results}</p>
-          </div>
+      {product.keyMetrics && product.keyMetrics.length > 0 && (
+        <section className="py-6 md:py-10 lg:py-16 xl:py-20 bg-secondary">
+          <Container>
+            <div className="text-center space-y-4 mb-12 md:mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tighter">
+                Key Results
+              </h2>
+              <p className="text-white/40 text-lg">{product.results}</p>
+            </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-            {product.keyMetrics.map((metric, index) => (
-              <div
-                key={index}
-                className="text-center space-y-4 p-8 rounded-[28px] bg-white/5 border border-white/5 hover:border-primary/30 transition-all duration-300"
-              >
-                <p className="text-4xl md:text-5xl font-bold text-primary tracking-tighter">
-                  {metric.value}
-                </p>
-                <p className="text-white/50 text-sm font-bold tracking-widest uppercase">
-                  {metric.label}
-                </p>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </section>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+              {product.keyMetrics.map((metric, index) => (
+                <div
+                  key={index}
+                  className="text-center space-y-4 p-8 rounded-[28px] bg-white/5 border border-white/5 hover:border-primary/30 transition-all duration-300"
+                >
+                  <p className="text-4xl md:text-5xl font-bold text-primary tracking-tighter">
+                    {metric.value}
+                  </p>
+                  <p className="text-white/50 text-sm font-bold tracking-widest uppercase">
+                    {metric.label}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </Container>
+        </section>
+      )}
 
       {/* Challenge & Solution */}
       <section className="py-6 md:py-10 lg:py-16 xl:py-20 bg-white">
@@ -350,28 +372,30 @@ const ProductDetailsContent = ({ product }: Props) => {
       </section>
 
       {/* Testimonial */}
-      <section className="py-6 md:py-10 lg:py-16 xl:py-20 bg-white">
-        <Container>
-          <div className="max-w-4xl mx-auto text-center space-y-10">
-            <div className="flex justify-center gap-1">
-              {[...Array(5)].map((_, i) => (
-                <MdStar key={i} className="text-primary text-3xl" />
-              ))}
+      {product.testimonial && (
+        <section className="py-6 md:py-10 lg:py-16 xl:py-20 bg-white">
+          <Container>
+            <div className="max-w-4xl mx-auto text-center space-y-10">
+              <div className="flex justify-center gap-1">
+                {[...Array(5)].map((_, i) => (
+                  <MdStar key={i} className="text-primary text-3xl" />
+                ))}
+              </div>
+              <blockquote className="text-2xl md:text-4xl font-bold text-secondary tracking-tight leading-snug italic">
+                &ldquo;{product.testimonial.quote}&rdquo;
+              </blockquote>
+              <div className="space-y-2">
+                <p className="text-secondary font-bold text-lg">
+                  {product.testimonial.author}
+                </p>
+                <p className="text-secondary/40 text-sm font-medium">
+                  {product.testimonial.role}
+                </p>
+              </div>
             </div>
-            <blockquote className="text-2xl md:text-4xl font-bold text-secondary tracking-tight leading-snug italic">
-              &ldquo;{product.testimonial.quote}&rdquo;
-            </blockquote>
-            <div className="space-y-2">
-              <p className="text-secondary font-bold text-lg">
-                {product.testimonial.author}
-              </p>
-              <p className="text-secondary/40 text-sm font-medium">
-                {product.testimonial.role}
-              </p>
-            </div>
-          </div>
-        </Container>
-      </section>
+          </Container>
+        </section>
+      )}
 
       {/* Related Products */}
       {relatedProducts.length > 0 && (

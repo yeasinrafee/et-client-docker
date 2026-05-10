@@ -6,9 +6,22 @@ import Autoplay from "embla-carousel-autoplay";
 import { MdArrowBack, MdArrowForward, MdStar } from "react-icons/md";
 import Image from "next/image";
 import Container from "@/components/shared/layout/Container";
-import { reviewsData } from "@/data/reviewsData";
 
-const Reviews = () => {
+interface ReviewItem {
+  _id?: string;
+  id?: number;
+  name: string;
+  company: string;
+  review: string;
+  rating: number;
+  avatar: string;
+}
+
+interface ReviewsProps {
+  data: ReviewItem[];
+}
+
+const Reviews = ({ data }: ReviewsProps) => {
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       loop: true,
@@ -40,6 +53,8 @@ const Reviews = () => {
     emblaApi.on("select", onSelect);
   }, [emblaApi, onSelect]);
 
+  if (!data || data.length === 0) return null;
+
   return (
     <section className="py-10 sm:py-12 md:py-20 bg-[#F8F8F8] border-b border-accent">
       <Container>
@@ -70,9 +85,9 @@ const Reviews = () => {
         <div className="relative">
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex">
-              {reviewsData.map((review, index) => (
+              {data.map((review, index) => (
                 <div
-                  key={review.id}
+                  key={review._id || review.id}
                   className={`flex-[0_0_100%] sm:flex-[0_0_80%] md:flex-[0_0_45%] lg:flex-[0_0_33.33%] pl-0 sm:pl-6 transition-opacity duration-500 ease-out ${
                     selectedIndex === index ? "opacity-100" : "opacity-30"
                   }`}

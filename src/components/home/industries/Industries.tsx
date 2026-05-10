@@ -6,13 +6,26 @@ import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { MdArrowOutward } from "react-icons/md";
 import Container from "@/components/shared/layout/Container";
-import { industriesData } from "@/data/industriesData";
 import Link from "next/link";
 
-const Industries = () => {
+interface IndustryItem {
+  _id?: string;
+  id?: number;
+  title: string;
+  description: string;
+  image: string;
+}
+
+interface IndustriesProps {
+  data: IndustryItem[];
+}
+
+const Industries = ({ data }: IndustriesProps) => {
   const [emblaRef] = useEmblaCarousel({ loop: true, align: "start" }, [
     Autoplay({ delay: 4000, stopOnInteraction: false }),
   ]);
+
+  if (!data || data.length === 0) return null;
 
   return (
     <section
@@ -49,9 +62,9 @@ const Industries = () => {
           <div className="lg:col-span-8">
             <div className="overflow-hidden px-2" ref={emblaRef}>
               <div className="flex -ml-5 md:-ml-6">
-                {industriesData.map((industry) => (
+                {data.map((industry) => (
                   <div
-                    key={industry.id}
+                    key={industry._id || industry.id}
                     className="flex-[0_0_54%] sm:flex-[0_0_70%] md:flex-[0_0_45%] lg:flex-[0_0_38%] min-w-0 pl-4 md:pl-6"
                   >
                     <div className="bg-white rounded-3xl overflow-hidden group h-full flex flex-col">

@@ -11,6 +11,11 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { usePathname } from "next/navigation";
 import SidebarItem from "./SidebarItem";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useAuthStore } from "@/store/useAuthStore";
+import Image from "next/image";
+import Logo from "@/assets/logo/logo4.png";
+import LoadingLogo from "@/assets/logo/loading.png";
+import Link from "next/link";
 
 interface SidebarProps {
   routes: {
@@ -41,11 +46,7 @@ interface SidebarProps {
 
 const Sidebar = ({
   routes,
-  user = {
-    name: "Admin User",
-    email: "admin@example.com",
-    fallback: "AU",
-  },
+  user,
   title = "Admin Panel",
   logo = <BarChart3 className="h-6 w-6" />,
   mobileOpen = false,
@@ -53,6 +54,7 @@ const Sidebar = ({
   collapsed = false,
   setCollapsed,
 }: SidebarProps) => {
+  const { user: authUser } = useAuthStore();
   const [internalCollapsed, setInternalCollapsed] = useState(collapsed);
   const isMobile = useMediaQuery("(max-width: 768px)");
   const pathname = usePathname();
@@ -97,29 +99,44 @@ const Sidebar = ({
         className={cn(
           "fixed inset-y-0 left-0 z-50 bg-slate-900 text-white transition-all duration-300 ease-in-out md:relative md:translate-x-0",
           isMobile && !mobileOpen ? "-translate-x-full" : "translate-x-0",
-          isCollapsed ? "w-16" : " w-56 2xl:w-64"
+          isCollapsed ? "w-16" : " w-56 2xl:w-64",
         )}
       >
         {/* Sidebar Header */}
         <div
           className={cn(
-            "flex h-16 items-center border-b border-slate-700",
-            isCollapsed ? "justify-center px-0" : "justify-between px-4"
+            "flex h-20 items-center border-b border-slate-700",
+            isCollapsed ? "justify-center px-0" : "justify-center px-4",
           )}
         >
           {!isCollapsed && (
-            <div className="flex items-center gap-2">
-              {logo}
-              <h1 className="text-xl font-bold">{title}</h1>
-            </div>
+            <Link href="/" className="flex items-center justify-center w-full">
+              <Image
+                src={Logo}
+                alt="Emperal Tech Logo"
+                width={240}
+                height={60}
+                className="w-auto h-11"
+              />
+            </Link>
           )}
-          {isCollapsed && logo}
+          {isCollapsed && (
+            <Link href="/" className="flex justify-center w-full">
+              <Image
+                src={LoadingLogo}
+                alt="Logo"
+                width={40}
+                height={40}
+                className="w-10 h-10 object-contain"
+              />
+            </Link>
+          )}
           {isMobile && !isCollapsed && (
             <Button
               variant="ghost"
               size="icon"
               onClick={toggleMobile}
-              className="md:hidden"
+              className="absolute right-2 md:hidden"
             >
               <ChevronLeft className="h-5 w-5" />
             </Button>
@@ -144,32 +161,34 @@ const Sidebar = ({
         </ScrollArea>
 
         {/* User Profile */}
-        {user && (
-          <div
-            className={cn(
-              "absolute bottom-0 w-full bg-primary2  border-t border-slate-700 ",
-              isCollapsed ? "p-2 flex justify-center" : "p-4"
-            )}
-          >
-            {isCollapsed ? (
+        <div
+          className={cn(
+            "absolute bottom-0 w-full bg-slate-800 border-t border-slate-700",
+            isCollapsed ? "p-2 flex justify-center" : "p-4",
+          )}
+        >
+          {isCollapsed ? (
+            <Avatar>
+              <AvatarImage src={authUser?.image} alt={authUser?.name} />
+              <AvatarFallback>{authUser?.name?.[0] || "A"}</AvatarFallback>
+            </Avatar>
+          ) : (
+            <div className="flex items-center gap-3">
               <Avatar>
-                <AvatarImage src={user.image} alt={user.name} />
-                <AvatarFallback>{user.fallback}</AvatarFallback>
+                <AvatarImage src={authUser?.image} alt={authUser?.name} />
+                <AvatarFallback>{authUser?.name?.[0] || "A"}</AvatarFallback>
               </Avatar>
-            ) : (
-              <div className="flex items-center gap-3">
-                <Avatar>
-                  <AvatarImage src={user.image} alt={user.name} />
-                  <AvatarFallback>{user.fallback}</AvatarFallback>
-                </Avatar>
-                <div>
-                  <p className="text-sm font-medium">{user.name}</p>
-                  <p className="text-xs text-slate-400">{user.email}</p>
-                </div>
+              <div className="overflow-hidden">
+                <p className="text-sm font-medium truncate">
+                  {authUser?.name || "Admin"}
+                </p>
+                <p className="text-xs text-slate-400 truncate">
+                  {authUser?.email || "admin@example.com"}
+                </p>
               </div>
-            )}
-          </div>
-        )}
+            </div>
+          )}
+        </div>
       </aside>
     </TooltipProvider>
   );

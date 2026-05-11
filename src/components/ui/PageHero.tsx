@@ -22,7 +22,7 @@ const PageHero: React.FC<PageHeroProps> = ({
   children,
 }) => {
   return (
-    <section className="relative w-full h-[50vh] sm:h-[55vh] md:h-[65vh] lg:h-[90vh] flex items-end overflow-hidden">
+    <section className="relative w-full h-[50vh] sm:h-[55vh] md:h-[65vh] lg:h-[75vh] 2xl:h-[70vh] flex items-end overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image

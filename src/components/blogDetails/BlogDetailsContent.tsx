@@ -70,7 +70,7 @@ const BlogDetailsContent = ({ blog }: BlogDetailsProps) => {
                 </span>
               ))}
             </div>
-            
+
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-secondary leading-tight">
               {blog.title}
             </h1>
@@ -99,7 +99,7 @@ const BlogDetailsContent = ({ blog }: BlogDetailsProps) => {
           </div>
 
           {/* Featured Image */}
-          {blog.image && (
+          {/* {blog.image && (
             <div className="relative w-full aspect-[21/9] rounded-[24px] overflow-hidden mb-12 border border-accent bg-[#F8F8F8]">
               <Image
                 src={blog.image}
@@ -109,7 +109,7 @@ const BlogDetailsContent = ({ blog }: BlogDetailsProps) => {
                 priority
               />
             </div>
-          )}
+          )} */}
 
           {/* Content */}
           <div className="bg-white border border-accent rounded-[32px] p-6 md:p-10 shadow-sm">
@@ -231,7 +231,9 @@ const BlogDetailsContent = ({ blog }: BlogDetailsProps) => {
           border-radius: 12px;
           overflow-x: auto;
           margin: 1.5rem 0;
-          font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+          font-family:
+            ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+            "Liberation Mono", "Courier New", monospace;
           font-size: 0.875rem;
           line-height: 1.6;
         }
@@ -240,7 +242,9 @@ const BlogDetailsContent = ({ blog }: BlogDetailsProps) => {
           color: #db2777;
           padding: 0.2em 0.4em;
           border-radius: 4px;
-          font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+          font-family:
+            ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+            "Liberation Mono", "Courier New", monospace;
           font-size: 0.875em;
         }
         .blog-content pre code {

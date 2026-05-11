@@ -6,6 +6,8 @@ import { usePathname } from "next/navigation";
 import { FaPhoneAlt } from "react-icons/fa";
 import { MdArrowOutward, MdMenu, MdClose } from "react-icons/md";
 import Container from "../layout/Container";
+import { useAuthStore } from "@/store/useAuthStore";
+import { cn } from "@/lib/utils";
 
 import Image from "next/image";
 import Logo from "@/assets/logo/logo4.png";
@@ -13,6 +15,9 @@ import Logo from "@/assets/logo/logo4.png";
 const Header = () => {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { token, user } = useAuthStore();
+  const isAdmin =
+    token && (user?.role === "admin" || user?.role === "superAdmin");
 
   const navLinks = [
     { name: "HOME", href: "/" },
@@ -64,29 +69,51 @@ const Header = () => {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              onClick={(e) => handleNavClick(e, link.href)}
-              className="text-xs font-bold text-white hover:text-primary transition-colors tracking-widest"
-            >
-              {link.name}
-            </Link>
-          ))}
+        <nav className="hidden lg:flex items-center lg:gap-6 2xl:gap-8">
+          {navLinks.map((link) => {
+            const isActive =
+              link.href === "/"
+                ? pathname === "/"
+                : pathname.startsWith(link.href) && link.href !== "/";
+
+            return (
+              <Link
+                key={link.name}
+                href={link.href}
+                onClick={(e) => handleNavClick(e, link.href)}
+                className={cn(
+                  "text-xs font-bold transition-colors tracking-widest",
+                  isActive
+                    ? "text-primary underline underline-offset-4"
+                    : "text-white hover:text-primary",
+                )}
+              >
+                {link.name}
+              </Link>
+            );
+          })}
         </nav>
 
         {/* Contact Info & Button (Desktop) & Hamburger (Mobile) */}
-        <div className="flex items-center gap-4 lg:gap-8">
-          <div className="hidden md:flex lg:flex items-center gap-2 text-white">
-            <span className="text-xs font-medium tracking-widest">
-              +021-5557-874
-            </span>
-          </div>
+        <div className="flex items-center gap-4 lg:gap-5 2xl:gap-8">
+          {isAdmin ? (
+            <Link
+              href="/dashboard"
+              className="text-[10px] md:text-xs font-bold text-white hover:underline transition-all tracking-widest"
+            >
+              DASHBOARD
+            </Link>
+          ) : (
+            <Link
+              href="/admin-login"
+              className="text-[10px] md:text-xs font-bold text-white hover:underline transition-all tracking-widest"
+            >
+              LOGIN
+            </Link>
+          )}
           <Link
             href="/contact"
-            className="hidden uppercase lg:flex items-center gap-2 bg-primary text-white px-6 py-2.5 rounded-full text-xs font-bold hover:bg-opacity-90 transition-all"
+            className="hidden uppercase lg:flex items-center gap-2 bg-primary text-white lg:px-4 2xl:px-6 py-2.5 rounded-full text-xs font-bold hover:bg-opacity-90 transition-all"
           >
             Contact us <MdArrowOutward className="text-sm" />
           </Link>

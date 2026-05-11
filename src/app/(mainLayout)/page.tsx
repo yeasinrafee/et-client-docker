@@ -23,12 +23,12 @@ export default async function Home() {
   // Fetch all data server-side in parallel
   const [services, industries, products, demos, reviews, blogs] =
     await Promise.all([
-      fetchAPI("/services"),
-      fetchAPI("/industries"),
-      fetchAPI("/products"),
-      fetchAPI("/demos"),
-      fetchAPI("/reviews"),
-      fetchAPI("/blogs"),
+      fetchAPI("/services").catch(() => null),
+      fetchAPI("/industries").catch(() => null),
+      fetchAPI("/products").catch(() => null),
+      fetchAPI("/demos").catch(() => null),
+      fetchAPI("/reviews").catch(() => null),
+      fetchAPI("/blogs").catch(() => null),
     ]);
 
   return (

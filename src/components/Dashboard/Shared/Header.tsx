@@ -15,6 +15,7 @@ import {
   User,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useAuthStore } from "@/store/useAuthStore";
 
 import {
   DropdownMenu,
@@ -75,10 +76,12 @@ const Header = ({
   //     setTheme(theme === "dark" ? "light" : "light");
   //   };
 
-  //   const handleLogout = () => {
-  //     Cookies.remove("skhToken");
-  //     router.push("/");
-  //   };
+  const { user, logout } = useAuthStore();
+
+  const handleLogout = () => {
+    logout();
+    router.push("/");
+  };
 
   return (
     <header
@@ -134,58 +137,7 @@ const Header = ({
       </div>
 
       <div className="flex items-center gap-4">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="relative bg-gray-100 cursor-pointer"
-            >
-              <Bell className="h-5 w-5" />
-              {notificationCount > 0 && (
-                <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 bg-red-500 text-white">
-                  {notificationCount}
-                </Badge>
-              )}
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-80">
-            <DropdownMenuLabel>Notifications</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            {[...Array(3)].map((_, i) => (
-              <DropdownMenuItem
-                key={i}
-                className="flex flex-col items-start py-2"
-              >
-                <div className="font-medium">New order received</div>
-                <div className="text-xs text-muted-foreground">
-                  Order #{1000 + i} has been placed
-                </div>
-                <div className="text-xs text-muted-foreground mt-1">
-                  {i + 1} hour{i !== 0 ? "s" : ""} ago
-                </div>
-              </DropdownMenuItem>
-            ))}
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="justify-center font-medium">
-              View all notifications
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-
-        {/* Theme Toggle */}
-        {/* <Button
-          variant="ghost"
-          size="icon"
-          onClick={toggleTheme}
-          className=" bg-gray-100 cursor-pointer"
-        >
-          {theme === "dark" ? (
-            <Sun className="h-5 w-5" />
-          ) : (
-            <Moon className="h-5 w-5" />
-          )}
-        </Button> */}
+        {/* Removed notifications and theme toggle for simplicity as requested */}
 
         {/* Profile Dropdown */}
         <DropdownMenu>
@@ -210,35 +162,17 @@ const Header = ({
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
                 <p className="text-sm font-medium leading-none">
-                  {"admin name"}
+                  {user?.name || "Admin"}
                 </p>
                 <p className="text-xs leading-none text-muted-foreground">
-                  {"admin email"}
+                  {user?.email || "admin@example.com"}
                 </p>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <Link
-                href={"/admin/profile"}
-                className=" flex items-center gap-2"
-              >
-                <User className="mr-2 h-4 w-4" />
-                <span>Profile</span>
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Settings className="mr-2 h-4 w-4" />
-              <span>Settings</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <HelpCircle className="mr-2 h-4 w-4" />
-              <span>Help</span>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
             <DropdownMenuItem
-              className="text-red-500"
-              // onClick={handleLogout}
+              className="text-red-500 cursor-pointer"
+              onClick={handleLogout}
             >
               <LogOut className="mr-2 h-4 w-4" />
               <span>Log out</span>

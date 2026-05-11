@@ -1,6 +1,8 @@
 "use client";
 
-import { ReactNode, useState } from "react";
+import { ReactNode, useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/store/useAuthStore";
 import Sidebar from "@/components/Dashboard/Shared/Sidebar";
 import Header from "@/components/Dashboard/Shared/Header";
 import { routes } from "@/components/Dashboard/Routes/Routes";
@@ -11,6 +13,27 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const isMobile = useMediaQuery("(max-width: 768px)");
   const toggleMobileSidebar = () => setMobileOpen(!mobileOpen);
+  
+  const router = useRouter();
+  const { token, user } = useAuthStore();
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  // Handle Zustand hydration
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (isHydrated) {
+      if (!token || (user?.role !== "admin" && user?.role !== "superAdmin")) {
+        router.push("/");
+      }
+    }
+  }, [isHydrated, token, user, router]);
+
+  if (!isHydrated || !token || (user?.role !== "admin" && user?.role !== "superAdmin")) {
+    return null;
+  }
 
   return (
     <div className="flex h-screen bg-gray-50 dark:bg-black dark:text-white">

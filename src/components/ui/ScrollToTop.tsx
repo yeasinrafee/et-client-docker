@@ -1,6 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { FaWhatsapp } from "react-icons/fa";
+
+const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "8801700000000";
+const whatsappUrl = `https://wa.me/${whatsappNumber}`;
 
 const ScrollToTop = () => {
   const [showButton, setShowButton] = useState(false);
@@ -37,11 +41,20 @@ const ScrollToTop = () => {
   }, []);
 
   return (
-    <div className="fixed bottom-5 right-5 cursor-pointer z-999">
+    <div className="fixed bottom-5 right-5 flex flex-col gap-3 cursor-pointer z-[999]">
+      <a
+        href={whatsappUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="bg-[#25D366] text-white w-12 h-12 rounded-full shadow-lg hover:scale-110 transition-transform flex items-center justify-center"
+        aria-label="Chat on WhatsApp"
+      >
+        <FaWhatsapp size={24} />
+      </a>
       <button
         onClick={scrollToTop}
-        className={`bg-secondary text-lg rounded-full p-3 relative cursor-pointer ${
-          showButton ? "block" : "hidden"
+        className={`bg-secondary text-lg rounded-full w-12 h-12 flex items-center justify-center relative cursor-pointer ${
+          showButton ? "flex" : "hidden"
         }`}
         style={{
           boxShadow: "0px 0px 30px 0px rgba(0, 19, 54, 0.16)",

@@ -63,7 +63,12 @@ const Services = ({ data }: ServicesProps) => {
                       : "text-secondary hover:translate-x-1"
                   }`}
                 >
-                  {service.title}
+                  <Link
+                    href={`/services/${service.slug}`}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {service.title}
+                  </Link>
                 </h3>
               </div>
             ))}

@@ -181,7 +181,7 @@ const ContactUs = () => {
       </div>
 
       {/* Bottom Section: Map iframe */}
-      <div className="w-full h-[400px] md:h-[500px] bg-accent">
+      <div className="w-full h-[350px] md:h-[400px] bg-accent">
         <iframe
           src="https://maps.google.com/maps?q=Uttara%20Sector%209%2C%20Dhaka%2C%20Bangladesh&t=&z=14&ie=UTF8&iwloc=&output=embed"
           width="100%"

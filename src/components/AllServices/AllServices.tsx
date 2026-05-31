@@ -78,7 +78,12 @@ const AllServices = ({ data }: AllServicesProps) => {
                   </div>
                   
                   <h3 className="text-2xl font-bold text-secondary group-hover:text-primary transition-colors duration-300">
-                    {service.title}
+                    <Link
+                      href={`/services/${service.slug}`}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {service.title}
+                    </Link>
                   </h3>
                   
                   <p className="text-secondary/70 text-base leading-relaxed line-clamp-3">

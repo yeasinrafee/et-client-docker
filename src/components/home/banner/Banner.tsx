@@ -7,7 +7,7 @@ import Link from "next/link";
 
 const Banner = () => {
   return (
-    <section className="relative h-[500px] sm:h-[550px] md:h-[650px] lg:h-[750px] xl:h-[820px] w-full overflow-hidden flex items-end">
+    <section className="relative h-[500px] sm:h-[550px] md:h-[650px] lg:h-[700px] 2xl:h-[820px] w-full overflow-hidden flex items-end">
       {/* Background Image with Enhanced Overlay */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -41,7 +41,7 @@ const Banner = () => {
           <div className="lg:col-span-4 flex justify-start lg:justify-end">
             <Link
               href="/contact"
-              className="group relative w-24 h-24 sm:w-40 sm:h-40 md:w-48 md:h-48 xl:w-56 xl:h-56 rounded-full bg-primary text-white flex flex-col items-center justify-center p-4 sm:p-8 text-center transition-transform hover:scale-105 duration-500 shadow-2xl shadow-primary/20"
+              className="group relative w-24 h-24 sm:w-40 sm:h-40 md:w-48 md:h-48 2xl:w-56 2xl:h-56 rounded-full bg-primary text-white flex flex-col items-center justify-center p-4 sm:p-8 text-center transition-transform hover:scale-105 duration-500 shadow-2xl shadow-primary/20"
             >
               <MdArrowOutward className="text-xl sm:text-3xl md:text-4xl mb-2 sm:mb-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
               <span className="text-[7px] sm:text-[10px] md:text-xs font-bold tracking-widest leading-tight">

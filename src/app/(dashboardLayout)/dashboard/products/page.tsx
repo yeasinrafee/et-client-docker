@@ -313,11 +313,20 @@ export default function ProductsPage() {
               <TableHead className="font-semibold text-gray-700">
                 Title
               </TableHead>
-              <TableHead className="font-semibold text-gray-700">
+              {/* <TableHead className="font-semibold text-gray-700">
                 Slug
-              </TableHead>
+              </TableHead> */}
               <TableHead className="font-semibold text-gray-700">
                 Categories
+              </TableHead>
+              <TableHead className="font-semibold text-gray-700">
+                Client
+              </TableHead>
+              <TableHead className="font-semibold text-gray-700">
+                Launch Date
+              </TableHead>
+              <TableHead className="font-semibold text-gray-700">
+                Duration
               </TableHead>
               <TableHead className="w-[100px] text-right font-semibold text-gray-700">
                 Actions
@@ -327,13 +336,13 @@ export default function ProductsPage() {
           <TableBody>
             {isLoading ? (
               <TableRow>
-                <TableCell colSpan={5} className="text-center h-24">
+                <TableCell colSpan={8} className="text-center h-24">
                   Loading...
                 </TableCell>
               </TableRow>
             ) : items.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={5} className="text-center h-24">
+                <TableCell colSpan={8} className="text-center h-24">
                   No data found.
                 </TableCell>
               </TableRow>
@@ -361,7 +370,7 @@ export default function ProductsPage() {
                   <TableCell className="font-medium text-gray-900">
                     {item.title}
                   </TableCell>
-                  <TableCell className="text-gray-600">{item.slug}</TableCell>
+                  {/* <TableCell className="text-gray-600">{item.slug}</TableCell> */}
                   <TableCell className="text-gray-600">
                     <div className="flex flex-wrap gap-1">
                       {item.categories?.map((cat: any) => (
@@ -375,7 +384,11 @@ export default function ProductsPage() {
                       ))}
                     </div>
                   </TableCell>
-                  <TableCell className="text-gray-600">{item.client}</TableCell>
+                  <TableCell className="text-gray-600">{item.client || "N/A"}</TableCell>
+                  <TableCell className="text-gray-600">
+                    {item.launchDate ? new Date(item.launchDate).toLocaleDateString() : "N/A"}
+                  </TableCell>
+                  <TableCell className="text-gray-600">{item.duration || "N/A"}</TableCell>
                   <TableCell className="text-right">
                     <ActionMenu
                       onView={() => openView(item)}

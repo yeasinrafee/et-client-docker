@@ -93,7 +93,11 @@ export default function ProductsPage() {
   const [formData, setFormData] = useState<any>({ ...emptyForm });
 
   const resetForm = () => {
-    setFormData({ ...emptyForm, testimonial: { ...emptyTestimonial }, seoData: { ...emptySeoData } });
+    setFormData({
+      ...emptyForm,
+      testimonial: { ...emptyTestimonial },
+      seoData: { ...emptySeoData },
+    });
     setSlugManuallyEdited(false);
   };
 
@@ -150,7 +154,10 @@ export default function ProductsPage() {
         const s = value as typeof emptySeoData;
         const kw =
           typeof s.seoKeywords === "string"
-            ? s.seoKeywords.split(",").map((k: string) => k.trim()).filter(Boolean)
+            ? s.seoKeywords
+                .split(",")
+                .map((k: string) => k.trim())
+                .filter(Boolean)
             : s.seoKeywords || [];
         if (s.metaTitle?.trim() || s.metaDescription?.trim() || kw.length > 0) {
           textData.seoData = {
@@ -310,7 +317,7 @@ export default function ProductsPage() {
                 Slug
               </TableHead>
               <TableHead className="font-semibold text-gray-700">
-                Client
+                Categories
               </TableHead>
               <TableHead className="w-[100px] text-right font-semibold text-gray-700">
                 Actions
@@ -630,7 +637,10 @@ export default function ProductsPage() {
                   onChange={(e) =>
                     setFormData({
                       ...formData,
-                      seoData: { ...formData.seoData, metaTitle: e.target.value },
+                      seoData: {
+                        ...formData.seoData,
+                        metaTitle: e.target.value,
+                      },
                     })
                   }
                 />
@@ -644,14 +654,19 @@ export default function ProductsPage() {
                   onChange={(e) =>
                     setFormData({
                       ...formData,
-                      seoData: { ...formData.seoData, metaDescription: e.target.value },
+                      seoData: {
+                        ...formData.seoData,
+                        metaDescription: e.target.value,
+                      },
                     })
                   }
                   className="flex min-h-[70px] w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="seo-keywords">SEO Keywords (comma separated)</Label>
+                <Label htmlFor="seo-keywords">
+                  SEO Keywords (comma separated)
+                </Label>
                 <Input
                   id="seo-keywords"
                   placeholder="e.g. AI analytics, business intelligence, dashboard"
@@ -659,7 +674,10 @@ export default function ProductsPage() {
                   onChange={(e) =>
                     setFormData({
                       ...formData,
-                      seoData: { ...formData.seoData, seoKeywords: e.target.value },
+                      seoData: {
+                        ...formData.seoData,
+                        seoKeywords: e.target.value,
+                      },
                     })
                   }
                 />
@@ -924,13 +942,18 @@ export default function ProductsPage() {
                   onChange={(e) =>
                     setFormData({
                       ...formData,
-                      seoData: { ...formData.seoData, metaTitle: e.target.value },
+                      seoData: {
+                        ...formData.seoData,
+                        metaTitle: e.target.value,
+                      },
                     })
                   }
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="edit-seo-metaDescription">Meta Description</Label>
+                <Label htmlFor="edit-seo-metaDescription">
+                  Meta Description
+                </Label>
                 <textarea
                   id="edit-seo-metaDescription"
                   placeholder="A compelling description for search engines (150-160 chars recommended)"
@@ -938,14 +961,19 @@ export default function ProductsPage() {
                   onChange={(e) =>
                     setFormData({
                       ...formData,
-                      seoData: { ...formData.seoData, metaDescription: e.target.value },
+                      seoData: {
+                        ...formData.seoData,
+                        metaDescription: e.target.value,
+                      },
                     })
                   }
                   className="flex min-h-[70px] w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="edit-seo-keywords">SEO Keywords (comma separated)</Label>
+                <Label htmlFor="edit-seo-keywords">
+                  SEO Keywords (comma separated)
+                </Label>
                 <Input
                   id="edit-seo-keywords"
                   placeholder="e.g. AI analytics, business intelligence, dashboard"
@@ -953,7 +981,10 @@ export default function ProductsPage() {
                   onChange={(e) =>
                     setFormData({
                       ...formData,
-                      seoData: { ...formData.seoData, seoKeywords: e.target.value },
+                      seoData: {
+                        ...formData.seoData,
+                        seoKeywords: e.target.value,
+                      },
                     })
                   }
                 />
@@ -1071,17 +1102,28 @@ export default function ProductsPage() {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                       >
-                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <rect
+                          x="3"
+                          y="4"
+                          width="18"
+                          height="18"
+                          rx="2"
+                          ry="2"
+                        ></rect>
                         <line x1="16" y1="2" x2="16" y2="6"></line>
                         <line x1="8" y1="2" x2="8" y2="6"></line>
                         <line x1="3" y1="10" x2="21" y2="10"></line>
                       </svg>
                     </div>
                     <div>
-                      <p className="text-xs text-gray-500 mb-0.5">Launch Date</p>
+                      <p className="text-xs text-gray-500 mb-0.5">
+                        Launch Date
+                      </p>
                       <p className="font-medium text-gray-900">
                         {selectedItem.launchDate
-                          ? new Date(selectedItem.launchDate).toLocaleDateString()
+                          ? new Date(
+                              selectedItem.launchDate,
+                            ).toLocaleDateString()
                           : "N/A"}
                       </p>
                     </div>
@@ -1157,107 +1199,120 @@ export default function ProductsPage() {
 
               {/* Categories, Tags & Technologies Section */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {selectedItem.categories && selectedItem.categories.length > 0 && (
-                  <div>
-                    <h4 className="flex items-center gap-2 font-semibold text-gray-800 mb-3 text-lg">
-                      <svg
-                        width="18"
-                        height="18"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
-                        <line x1="7" y1="7" x2="7.01" y2="7"></line>
-                      </svg>
-                      Categories
-                    </h4>
-                    <div className="flex flex-wrap gap-2">
-                      {selectedItem.categories.map((cat: any) => (
-                        <Badge
-                          key={cat._id}
-                          variant="secondary"
-                          className="bg-blue-50 text-blue-700 border-blue-100 px-3 py-1"
+                {selectedItem.categories &&
+                  selectedItem.categories.length > 0 && (
+                    <div>
+                      <h4 className="flex items-center gap-2 font-semibold text-gray-800 mb-3 text-lg">
+                        <svg
+                          width="18"
+                          height="18"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                         >
-                          {cat.name}
-                        </Badge>
-                      ))}
+                          <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                          <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                        </svg>
+                        Categories
+                      </h4>
+                      <div className="flex flex-wrap gap-2">
+                        {selectedItem.categories.map((cat: any) => (
+                          <Badge
+                            key={cat._id}
+                            variant="secondary"
+                            className="bg-blue-50 text-blue-700 border-blue-100 px-3 py-1"
+                          >
+                            {cat.name}
+                          </Badge>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
-                {selectedItem.tags && (Array.isArray(selectedItem.tags) ? selectedItem.tags.length > 0 : selectedItem.tags.trim().length > 0) && (
-                  <div>
-                    <h4 className="flex items-center gap-2 font-semibold text-gray-800 mb-3 text-lg">
-                      <svg
-                        width="18"
-                        height="18"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
-                        <line x1="7" y1="7" x2="7.01" y2="7"></line>
-                      </svg>
-                      Tags
-                    </h4>
-                    <div className="flex flex-wrap gap-2">
-                      {(Array.isArray(selectedItem.tags)
-                        ? selectedItem.tags
-                        : selectedItem.tags.split(",").map((t: string) => t.trim()).filter(Boolean)
-                      ).map((tag: string, index: number) => (
-                        <Badge
-                          key={index}
-                          variant="outline"
-                          className="bg-gray-50 text-gray-700 border-gray-200 px-3 py-1 uppercase text-[10px] font-bold tracking-wider"
+                {selectedItem.tags &&
+                  (Array.isArray(selectedItem.tags)
+                    ? selectedItem.tags.length > 0
+                    : selectedItem.tags.trim().length > 0) && (
+                    <div>
+                      <h4 className="flex items-center gap-2 font-semibold text-gray-800 mb-3 text-lg">
+                        <svg
+                          width="18"
+                          height="18"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                         >
-                          {tag}
-                        </Badge>
-                      ))}
+                          <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                          <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                        </svg>
+                        Tags
+                      </h4>
+                      <div className="flex flex-wrap gap-2">
+                        {(Array.isArray(selectedItem.tags)
+                          ? selectedItem.tags
+                          : selectedItem.tags
+                              .split(",")
+                              .map((t: string) => t.trim())
+                              .filter(Boolean)
+                        ).map((tag: string, index: number) => (
+                          <Badge
+                            key={index}
+                            variant="outline"
+                            className="bg-gray-50 text-gray-700 border-gray-200 px-3 py-1 uppercase text-[10px] font-bold tracking-wider"
+                          >
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
-                {selectedItem.technologies && (Array.isArray(selectedItem.technologies) ? selectedItem.technologies.length > 0 : selectedItem.technologies.trim().length > 0) && (
-                  <div>
-                    <h4 className="flex items-center gap-2 font-semibold text-gray-800 mb-3 text-lg">
-                      <svg
-                        width="18"
-                        height="18"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <polyline points="16 18 22 12 16 6"></polyline>
-                        <polyline points="8 6 2 12 8 18"></polyline>
-                      </svg>
-                      Technologies
-                    </h4>
-                    <div className="flex flex-wrap gap-2">
-                      {(Array.isArray(selectedItem.technologies)
-                        ? selectedItem.technologies
-                        : selectedItem.technologies.split(",").map((t: string) => t.trim()).filter(Boolean)
-                      ).map((tech: string, index: number) => (
-                        <Badge
-                          key={index}
-                          variant="outline"
-                          className="bg-green-50 text-green-700 border-green-100 px-3 py-1 font-medium"
+                {selectedItem.technologies &&
+                  (Array.isArray(selectedItem.technologies)
+                    ? selectedItem.technologies.length > 0
+                    : selectedItem.technologies.trim().length > 0) && (
+                    <div>
+                      <h4 className="flex items-center gap-2 font-semibold text-gray-800 mb-3 text-lg">
+                        <svg
+                          width="18"
+                          height="18"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                         >
-                          {tech}
-                        </Badge>
-                      ))}
+                          <polyline points="16 18 22 12 16 6"></polyline>
+                          <polyline points="8 6 2 12 8 18"></polyline>
+                        </svg>
+                        Technologies
+                      </h4>
+                      <div className="flex flex-wrap gap-2">
+                        {(Array.isArray(selectedItem.technologies)
+                          ? selectedItem.technologies
+                          : selectedItem.technologies
+                              .split(",")
+                              .map((t: string) => t.trim())
+                              .filter(Boolean)
+                        ).map((tech: string, index: number) => (
+                          <Badge
+                            key={index}
+                            variant="outline"
+                            className="bg-green-50 text-green-700 border-green-100 px-3 py-1 font-medium"
+                          >
+                            {tech}
+                          </Badge>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
               </div>
 
               {/* Description Section */}
@@ -1401,16 +1456,19 @@ export default function ProductsPage() {
                         SEO Keywords
                       </p>
                       <div className="flex flex-wrap gap-1.5 mt-1">
-                        {selectedItem.seo.seoKeywords && selectedItem.seo.seoKeywords.length > 0 ? (
-                          selectedItem.seo.seoKeywords.map((kw: string, index: number) => (
-                            <Badge
-                              key={index}
-                              variant="secondary"
-                              className="bg-gray-200/60 text-gray-800 text-xs"
-                            >
-                              {kw}
-                            </Badge>
-                          ))
+                        {selectedItem.seo.seoKeywords &&
+                        selectedItem.seo.seoKeywords.length > 0 ? (
+                          selectedItem.seo.seoKeywords.map(
+                            (kw: string, index: number) => (
+                              <Badge
+                                key={index}
+                                variant="secondary"
+                                className="bg-gray-200/60 text-gray-800 text-xs"
+                              >
+                                {kw}
+                              </Badge>
+                            ),
+                          )
                         ) : (
                           <span className="text-sm text-gray-500">None</span>
                         )}

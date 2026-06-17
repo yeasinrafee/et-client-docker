@@ -18,20 +18,27 @@ import useEmblaCarousel from "embla-carousel-react";
 import Container from "@/components/shared/layout/Container";
 import PageHero from "../ui/PageHero";
 
+interface CategoryData {
+  _id?: string;
+  name: string;
+  slug?: string;
+}
+
 interface ProductData {
   _id?: string;
   id?: string;
   title: string;
   category?: string;
-  categories?: any[];
+  categories?: CategoryData[];
   tags: string[];
   images: string[];
   description: string;
   fullDescription: string;
-  challenge: string;
-  solution: string;
-  features: string[];
-  featureImage: string;
+  challenge?: string;
+  solution?: string;
+  features?: string[];
+  featureImage?: string;
+  contentHtml?: string;
   technologies: string[];
   client: string;
   launchDate?: string;
@@ -176,21 +183,51 @@ const ProductDetailsContent = ({ product, relatedProducts = [] }: Props) => {
             </div>
 
             {/* Project Info */}
-            <div className="space-y-6 lg:space-y-10">
-              {/* Tags */}
-              <div className="flex flex-wrap gap-3">
-                <span className="px-4 py-2 bg-primary/5 text-primary text-xs font-bold tracking-widest rounded-full border border-primary/10 uppercase">
-                  {product.category}
-                </span>
-                {product.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-4 py-2 bg-secondary/5 text-secondary/70 text-xs font-bold tracking-widest rounded-full border border-secondary/10 uppercase"
-                  >
-                    {tag}
+            <div className="space-y-5 lg:space-y-6">
+              {/* Category */}
+              {((product.categories && product.categories.length > 0) ||
+                product.category) && (
+                <div className="space-y-2">
+                  <span className="text-xs font-bold text-secondary/40 tracking-widest uppercase">
+                    Category
                   </span>
-                ))}
-              </div>
+                  <div className="flex flex-wrap gap-2 sm:gap-3">
+                    {product.categories && product.categories.length > 0
+                      ? product.categories.map((cat) => (
+                          <span
+                            key={cat._id || cat.slug || cat.name}
+                            className="px-4 py-2 bg-primary/5 text-primary text-xs font-bold tracking-widest rounded-full border border-primary/10 uppercase"
+                          >
+                            {cat.name}
+                          </span>
+                        ))
+                      : product.category && (
+                          <span className="px-4 py-2 bg-primary/5 text-primary text-xs font-bold tracking-widest rounded-full border border-primary/10 uppercase">
+                            {product.category}
+                          </span>
+                        )}
+                  </div>
+                </div>
+              )}
+
+              {/* Tags */}
+              {product.tags && product.tags.length > 0 && (
+                <div className="space-y-2">
+                  <span className="text-xs font-bold text-secondary/40 tracking-widest uppercase">
+                    Tags
+                  </span>
+                  <div className="flex flex-wrap gap-2 sm:gap-3">
+                    {product.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="px-4 py-2 bg-secondary/5 text-secondary/70 text-xs font-bold tracking-widest rounded-full border border-secondary/10 uppercase"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Title */}
               <h2 className="text-4xl md:text-5xl font-bold text-secondary tracking-tighter leading-tight">
@@ -203,15 +240,15 @@ const ProductDetailsContent = ({ product, relatedProducts = [] }: Props) => {
               </p>
 
               {/* Project Meta */}
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-6 py-8 border-y border-accent">
-                <div className="space-y-2">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6 py-5 sm:py-6 border-y border-accent">
+                <div className="space-y-1.5">
                   <div className="flex items-center gap-2 text-secondary/40 text-sm">
                     <MdGroup className="text-primary text-lg" />
                     Client
                   </div>
                   <p className="text-secondary font-bold">{product.client}</p>
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                   <div className="flex items-center gap-2 text-secondary/40 text-sm">
                     <MdCalendarToday className="text-primary text-lg" />
                     Launch Date
@@ -223,12 +260,12 @@ const ProductDetailsContent = ({ product, relatedProducts = [] }: Props) => {
                           {
                             month: "short",
                             year: "numeric",
-                          }
+                          },
                         )
                       : "N/A"}
                   </p>
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-1.5 col-span-2 sm:col-span-1">
                   <div className="flex items-center gap-2 text-secondary/40 text-sm">
                     <MdAccessTime className="text-primary text-lg" />
                     Duration
@@ -238,138 +275,248 @@ const ProductDetailsContent = ({ product, relatedProducts = [] }: Props) => {
               </div>
 
               {/* Technologies */}
-              <div className="space-y-4">
-                <h3 className="text-sm font-bold text-secondary/40 tracking-widest uppercase">
-                  Technologies Used
-                </h3>
-                <div className="flex flex-wrap gap-3">
-                  {product.technologies.map((tech) => (
-                    <span
-                      key={tech}
-                      className="px-4 py-2.5 bg-secondary text-white text-xs font-bold tracking-wider rounded-full"
-                    >
-                      {tech}
-                    </span>
-                  ))}
+              {product.technologies && product.technologies.length > 0 && (
+                <div className="space-y-3">
+                  <h3 className="text-sm font-bold text-secondary/40 tracking-widest uppercase">
+                    Technologies Used
+                  </h3>
+                  <div className="flex flex-wrap gap-2 sm:gap-3">
+                    {product.technologies.map((tech) => (
+                      <span
+                        key={tech}
+                        className="px-3.5 py-2 bg-secondary text-white text-xs font-bold tracking-wider rounded-full"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </Container>
       </section>
 
-      {/* Key Metrics */}
-      {product.keyMetrics && product.keyMetrics.length > 0 && (
-        <section className="py-6 md:py-10 lg:py-16 xl:py-20 bg-secondary">
+      {/* Rich Text Editor Content */}
+      {product.contentHtml && (
+        <section className=" bg-white border-t border-accent">
           <Container>
-            <div className="text-center space-y-4 mb-12 md:mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tighter">
-                Key Results
-              </h2>
-              <p className="text-white/40 text-lg">{product.results}</p>
-            </div>
-
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-              {product.keyMetrics.map((metric, index) => (
-                <div
-                  key={index}
-                  className="text-center space-y-4 p-8 rounded-[28px] bg-white/5 border border-white/5 hover:border-primary/30 transition-all duration-300"
-                >
-                  <p className="text-4xl md:text-5xl font-bold text-primary tracking-tighter">
-                    {metric.value}
-                  </p>
-                  <p className="text-white/50 text-sm font-bold tracking-widest uppercase">
-                    {metric.label}
-                  </p>
-                </div>
-              ))}
+            <div className="container mx-auto">
+              <div
+                className="rich-text-content prose prose-lg max-w-none text-secondary/80"
+                dangerouslySetInnerHTML={{ __html: product.contentHtml }}
+              />
             </div>
           </Container>
+          <style jsx global>{`
+            .rich-text-content {
+              font-size: 1.125rem;
+              line-height: 1.8;
+              color: #2d3748;
+            }
+            .rich-text-content h1,
+            .rich-text-content h2,
+            .rich-text-content h3 {
+              color: #1a202c;
+              font-weight: 800;
+              letter-spacing: -0.025em;
+              margin-top: 3.5rem;
+              margin-bottom: 1.25rem;
+              position: relative;
+            }
+            .rich-text-content h1 {
+              font-size: 2.25rem;
+              border-bottom: 2px solid #e2e8f0;
+              padding-bottom: 0.5rem;
+            }
+            .rich-text-content h2 {
+              font-size: 2rem;
+              border-bottom: 2px solid #e2e8f0;
+              padding-bottom: 0.75rem;
+              margin-top: 4rem;
+              color: #1a202c;
+            }
+            .rich-text-content h2::after {
+              content: "";
+              position: absolute;
+              bottom: -2px;
+              left: 0;
+              width: 80px;
+              height: 2px;
+              background-color: #1677ff;
+            }
+            .rich-text-content h3 {
+              font-size: 1.5rem;
+              color: #2d3748;
+              padding-left: 0.75rem;
+              border-left: 4px solid #1677ff;
+            }
+            .rich-text-content p {
+              margin-bottom: 1.75rem;
+              color: #4a5568;
+            }
+            .rich-text-content strong {
+              font-weight: 700;
+              color: #1a202c;
+            }
+            .rich-text-content ul {
+              list-style-type: none;
+              padding-left: 0;
+              margin-bottom: 1.75rem;
+              display: grid;
+              gap: 0.6rem;
+            }
+            .rich-text-content ul li {
+              position: relative;
+              padding-left: 1.75rem;
+              color: #4a5568;
+            }
+            .rich-text-content ul li p {
+              margin-bottom: 0;
+            }
+            .rich-text-content ul li::before {
+              content: "✓";
+              position: absolute;
+              left: 0;
+              top: 0;
+              color: #1677ff;
+              font-weight: bold;
+            }
+            .rich-text-content ol {
+              list-style-type: decimal;
+              padding-left: 1.75rem;
+              margin-bottom: 1.75rem;
+              color: #4a5568;
+            }
+            .rich-text-content ol li {
+              margin-bottom: 0.5rem;
+            }
+            .rich-text-content ol li p {
+              margin-bottom: 0;
+            }
+            .rich-text-content blockquote {
+              border-left: 4px solid #1677ff;
+              padding: 1.25rem 1.75rem;
+              margin: 2.5rem 0;
+              background-color: #f7fafc;
+              border-radius: 0 12px 12px 0;
+              color: #4a5568;
+              font-style: italic;
+              font-size: 1.25rem;
+              line-height: 1.6;
+              box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+            }
+            .rich-text-content pre {
+              background-color: #1a202c;
+              color: #edf2f7;
+              border-radius: 12px;
+              padding: 1.5rem;
+              overflow-x: auto;
+              margin: 2rem 0;
+              font-size: 0.95rem;
+              border: 1px solid #e2e8f0;
+            }
+            .rich-text-content code {
+              background-color: #edf2f7;
+              padding: 0.2rem 0.4rem;
+              border-radius: 4px;
+              font-size: 0.9em;
+              color: #e53e3e;
+              font-family: monospace;
+            }
+            .rich-text-content pre code {
+              background-color: transparent;
+              color: inherit;
+              padding: 0;
+              font-size: inherit;
+            }
+            .rich-text-content a {
+              color: #1677ff;
+              text-decoration: underline;
+              font-weight: 500;
+            }
+            .rich-text-content a:hover {
+              color: #0f62d9;
+            }
+            .rich-text-content img {
+              max-width: 100%;
+              height: auto;
+              border-radius: 16px;
+              margin: 3rem auto;
+              display: block;
+              box-shadow:
+                0 20px 25px -5px rgba(0, 0, 0, 0.1),
+                0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            }
+            .rich-text-content sub,
+            .rich-text-content sup {
+              font-size: 0.7em;
+            }
+            .rich-text-content ul[data-type="taskList"] {
+              list-style: none;
+              padding-left: 0;
+              display: block;
+            }
+            .rich-text-content ul[data-type="taskList"] li {
+              display: flex;
+              align-items: flex-start;
+              gap: 0.6rem;
+              padding-left: 0;
+              margin-bottom: 0.5rem;
+            }
+            .rich-text-content ul[data-type="taskList"] li::before {
+              content: none;
+            }
+            .rich-text-content ul[data-type="taskList"] li > div p {
+              margin-bottom: 0;
+            }
+            .rich-text-content ul[data-type="taskList"] li > label {
+              margin-top: 0.3rem;
+              user-select: none;
+            }
+            .rich-text-content ul[data-type="taskList"] input[type="checkbox"] {
+              width: 16px;
+              height: 16px;
+              cursor: default;
+              accent-color: #1677ff;
+            }
+            .rich-text-content table {
+              width: 100%;
+              border-collapse: collapse;
+              table-layout: fixed;
+              margin: 2.5rem 0;
+              overflow: hidden;
+              border-radius: 12px;
+              border: 1px solid #e2e8f0;
+              display: block;
+              overflow-x: auto;
+              white-space: normal;
+            }
+            .rich-text-content table tbody,
+            .rich-text-content table thead {
+              display: table;
+              width: 100%;
+              table-layout: fixed;
+            }
+            .rich-text-content table td,
+            .rich-text-content table th {
+              border: 1px solid #e2e8f0;
+              padding: 0.75rem 1rem;
+              vertical-align: top;
+              text-align: left;
+              color: #4a5568;
+            }
+            .rich-text-content table th {
+              background-color: #f7fafc;
+              color: #1a202c;
+              font-weight: 700;
+            }
+            .rich-text-content table tr:nth-child(even) td {
+              background-color: #fafbfc;
+            }
+          `}</style>
         </section>
       )}
-
-      {/* Challenge & Solution */}
-      <section className="py-6 md:py-10 lg:py-16 xl:py-20 bg-white">
-        <Container>
-          <div className="grid lg:grid-cols-2 gap-12 md:gap-16 lg:gap-24">
-            {/* Challenge */}
-            <div className="space-y-4 md:space-y-8">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-orange/10 flex items-center justify-center">
-                  <span className="text-orange text-xl font-bold">!</span>
-                </div>
-                <h3 className="text-3xl font-bold text-secondary tracking-tighter">
-                  The Challenge
-                </h3>
-              </div>
-              <p className="text-secondary/60 text-base md:text-lg leading-relaxed">
-                {product.challenge}
-              </p>
-            </div>
-
-            {/* Solution */}
-            <div className="space-y-4 md:space-y-8">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center">
-                  <span className="text-primary text-xl font-bold">✓</span>
-                </div>
-                <h3 className="text-3xl font-bold text-secondary tracking-tighter">
-                  Our Solution
-                </h3>
-              </div>
-              <p className="text-secondary/60 text-base md:text-lg leading-relaxed">
-                {product.solution}
-              </p>
-            </div>
-          </div>
-        </Container>
-      </section>
-
-      {/* Features */}
-      <section className="py-6 md:py-10 lg:py-16 xl:py-20 bg-[#F8F8F8]">
-        <Container>
-          <div className="grid lg:grid-cols-12 gap-16 lg:gap-24 items-center">
-            {/* Left Side: Feature Image */}
-            <div className="lg:col-span-6">
-              <div className="relative aspect-[4/3] rounded-[40px] overflow-hidden border border-accent shadow-2xl shadow-black/5 group">
-                <Image
-                  src={product.featureImage || product.images[0]}
-                  alt="Feature Highlight"
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              </div>
-            </div>
-
-            {/* Right Side: Features List */}
-            <div className="lg:col-span-6 space-y-10">
-              <div className="space-y-4 md:space-y-6">
-                <h2 className="text-4xl md:text-5xl font-bold text-secondary tracking-tighter">
-                  Key Features
-                </h2>
-                <p className="text-secondary/60 text-base md:text-lg leading-relaxed">
-                  We&apos;ve engineered this solution with a focus on
-                  performance, scalability, and user-centric design.
-                </p>
-              </div>
-
-              <div className="grid gap-6">
-                {product.features.map((feature, index) => (
-                  <div key={index} className="flex items-center gap-4 group">
-                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary transition-colors duration-300">
-                      <MdCheck className="text-primary text-xl group-hover:text-white transition-colors duration-300" />
-                    </div>
-                    <span className="text-lg font-bold text-secondary/80 group-hover:text-secondary transition-colors">
-                      {feature}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </Container>
-      </section>
 
       {/* Testimonial */}
       {product.testimonial && (
@@ -407,7 +554,12 @@ const ProductDetailsContent = ({ product, relatedProducts = [] }: Props) => {
                   Related Projects
                 </h2>
                 <p className="text-secondary/40 text-lg">
-                  More work in {product.tags[0].toLowerCase()}
+                  More work in{" "}
+                  {product.tags && product.tags.length > 0
+                    ? product.tags[0].toLowerCase()
+                    : product.categories && product.categories.length > 0
+                      ? product.categories[0].name.toLowerCase()
+                      : "this category"}
                 </p>
               </div>
               <Link
@@ -422,7 +574,7 @@ const ProductDetailsContent = ({ product, relatedProducts = [] }: Props) => {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {relatedProducts.map((related) => (
                 <Link
-                  key={related.id}
+                  key={related._id || related.id || related.slug}
                   href={`/products/${related.slug}`}
                   className="group cursor-pointer"
                 >
@@ -434,15 +586,19 @@ const ProductDetailsContent = ({ product, relatedProducts = [] }: Props) => {
                       fill
                       className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
                     />
-                    <div className="absolute bottom-6 left-6">
-                      <span className="px-4 py-2 bg-black/40 backdrop-blur-md text-white text-[10px] font-bold tracking-widest rounded-full border border-white/20 uppercase">
-                        {related.tags[0]}
-                      </span>
-                    </div>
+                    {related.tags && related.tags.length > 0 && (
+                      <div className="absolute bottom-6 left-6">
+                        <span className="px-4 py-2 bg-black/40 backdrop-blur-md text-white text-[10px] font-bold tracking-widest rounded-full border border-white/20 uppercase">
+                          {related.tags[0]}
+                        </span>
+                      </div>
+                    )}
                   </div>
                   <div className="space-y-1 px-2">
                     <span className="text-[10px] font-bold text-secondary/40 tracking-widest uppercase">
-                      {related.category}
+                      {related.categories && related.categories.length > 0
+                        ? related.categories.map((c) => c.name).join(", ")
+                        : related.category}
                     </span>
                     <h3 className="text-2xl font-bold text-secondary group-hover:text-primary transition-colors">
                       {related.title}

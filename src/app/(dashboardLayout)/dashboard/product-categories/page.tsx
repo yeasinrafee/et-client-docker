@@ -25,6 +25,17 @@ import ActionMenu from "@/components/Dashboard/Shared/ActionMenu";
 import DeleteModal from "@/components/Dashboard/Shared/DeleteModal";
 import { useCrud } from "@/hooks/useCrud";
 
+function slugify(text: string): string {
+  return text
+    .toString()
+    .trim()
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/[\s_]+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 export default function ProductCategoriesPage() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
@@ -43,6 +54,23 @@ export default function ProductCategoriesPage() {
   
   const [selectedItem, setSelectedItem] = useState<any>(null);
   const [formData, setFormData] = useState({ name: "", slug: "" });
+
+  const handleNameChange = (value: string) => {
+    setFormData((prev: any) => {
+      const prevNameSlug = slugify(prev.name || "");
+      const currentSlug = prev.slug || "";
+      const shouldAutoGenerate = currentSlug === "" || currentSlug === prevNameSlug;
+      return {
+        ...prev,
+        name: value,
+        slug: shouldAutoGenerate ? slugify(value) : currentSlug,
+      };
+    });
+  };
+
+  const handleSlugChange = (value: string) => {
+    setFormData((prev: any) => ({ ...prev, slug: value }));
+  };
 
   const handleCreate = (e: React.FormEvent) => {
     e.preventDefault();
@@ -120,17 +148,18 @@ export default function ProductCategoriesPage() {
               <TableHead className="w-[60px] font-semibold text-gray-700">#</TableHead>
               <TableHead className="font-semibold text-gray-700">Name</TableHead>
               <TableHead className="font-semibold text-gray-700">Slug</TableHead>
+              <TableHead className="font-semibold text-gray-700 text-center">Products</TableHead>
               <TableHead className="w-[100px] text-right font-semibold text-gray-700">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {isLoading ? (
               <TableRow>
-                <TableCell colSpan={4} className="text-center h-24">Loading...</TableCell>
+                <TableCell colSpan={5} className="text-center h-24">Loading...</TableCell>
               </TableRow>
             ) : items.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={4} className="text-center h-24">No data found.</TableCell>
+                <TableCell colSpan={5} className="text-center h-24">No data found.</TableCell>
               </TableRow>
             ) : (
               items.map((item: any, index: number) => (
@@ -138,6 +167,11 @@ export default function ProductCategoriesPage() {
                   <TableCell className="font-medium text-gray-500">{(page - 1) * limit + index + 1}</TableCell>
                   <TableCell className="font-medium text-gray-900">{item.name}</TableCell>
                   <TableCell className="text-gray-600">{item.slug}</TableCell>
+                  <TableCell className="text-center">
+                    <span className="inline-flex items-center justify-center px-2.5 py-0.5 text-xs font-semibold bg-gray-100 text-gray-800 rounded-full min-w-[24px]">
+                      {item.productCount || 0}
+                    </span>
+                  </TableCell>
                   <TableCell className="text-right">
                     <ActionMenu
                       onView={() => openView(item)}
@@ -172,7 +206,7 @@ export default function ProductCategoriesPage() {
               <Input
                 id="name"
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={(e) => handleNameChange(e.target.value)}
                 required
               />
             </div>
@@ -181,7 +215,7 @@ export default function ProductCategoriesPage() {
               <Input
                 id="slug"
                 value={formData.slug}
-                onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                onChange={(e) => handleSlugChange(e.target.value)}
                 required
               />
             </div>
@@ -207,7 +241,7 @@ export default function ProductCategoriesPage() {
               <Input
                 id="edit-name"
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={(e) => handleNameChange(e.target.value)}
                 required
               />
             </div>
@@ -216,7 +250,7 @@ export default function ProductCategoriesPage() {
               <Input
                 id="edit-slug"
                 value={formData.slug}
-                onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                onChange={(e) => handleSlugChange(e.target.value)}
                 required
               />
             </div>

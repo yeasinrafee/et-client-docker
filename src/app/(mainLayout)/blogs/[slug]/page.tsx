@@ -29,5 +29,12 @@ export default async function BlogPage({ params }: PageProps) {
     notFound();
   }
 
-  return <BlogDetailsContent blog={blog} />;
+  // Fetch recent blogs for sidebar
+  const allBlogs = await fetchAPI(`/blogs`);
+  const recentBlogs = Array.isArray(allBlogs)
+    ? allBlogs.filter((b: { slug: string }) => b.slug !== slug).slice(0, 5)
+    : [];
+
+  return <BlogDetailsContent blog={blog} recentBlogs={recentBlogs} />;
 }
+

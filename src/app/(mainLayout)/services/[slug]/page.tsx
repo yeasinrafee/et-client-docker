@@ -42,5 +42,12 @@ export default async function ServicePage({ params }: PageProps) {
     notFound();
   }
 
-  return <ServiceDetailsContent service={service} />;
+  // Fetch all services for sidebar navigation (fallback to local data)
+  const apiAllServices = await fetchAPI(`/services`);
+  const allServices: { slug: string; title: string }[] =
+    Array.isArray(apiAllServices) && apiAllServices.length > 0
+      ? apiAllServices
+      : servicesData;
+
+  return <ServiceDetailsContent service={service} allServices={allServices} />;
 }

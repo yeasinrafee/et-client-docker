@@ -163,11 +163,10 @@ const ProductDetailsContent = ({ product, relatedProducts = [] }: Props) => {
                     >
                       <button
                         onClick={() => setActiveImage(index)}
-                        className={`relative w-full aspect-[4/3] rounded-2xl overflow-hidden border-2 transition-all duration-300 ${
-                          activeImage === index
+                        className={`relative w-full aspect-[4/3] rounded-2xl overflow-hidden border-2 transition-all duration-300 ${activeImage === index
                             ? "border-primary shadow-lg shadow-primary/10"
                             : "border-accent hover:border-primary/30"
-                        }`}
+                          }`}
                       >
                         <Image
                           src={img}
@@ -187,13 +186,13 @@ const ProductDetailsContent = ({ product, relatedProducts = [] }: Props) => {
               {/* Category */}
               {((product.categories && product.categories.length > 0) ||
                 product.category) && (
-                <div className="space-y-2">
-                  <span className="text-xs font-bold text-secondary/40 tracking-widest uppercase">
-                    Category
-                  </span>
-                  <div className="flex flex-wrap gap-2 sm:gap-3">
-                    {product.categories && product.categories.length > 0
-                      ? product.categories.map((cat) => (
+                  <div className="space-y-2">
+                    <span className="text-xs font-bold text-secondary/40 tracking-widest uppercase">
+                      Category
+                    </span>
+                    <div className="flex flex-wrap gap-2 sm:gap-3">
+                      {product.categories && product.categories.length > 0
+                        ? product.categories.map((cat) => (
                           <span
                             key={cat._id || cat.slug || cat.name}
                             className="px-4 py-2 bg-primary/5 text-primary text-xs font-bold tracking-widest rounded-full border border-primary/10 uppercase"
@@ -201,14 +200,14 @@ const ProductDetailsContent = ({ product, relatedProducts = [] }: Props) => {
                             {cat.name}
                           </span>
                         ))
-                      : product.category && (
+                        : product.category && (
                           <span className="px-4 py-2 bg-primary/5 text-primary text-xs font-bold tracking-widest rounded-full border border-primary/10 uppercase">
                             {product.category}
                           </span>
                         )}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
               {/* Tags */}
               {product.tags && product.tags.length > 0 && (
@@ -256,12 +255,12 @@ const ProductDetailsContent = ({ product, relatedProducts = [] }: Props) => {
                   <p className="text-secondary font-bold">
                     {product.launchDate
                       ? new Date(product.launchDate).toLocaleDateString(
-                          "en-US",
-                          {
-                            month: "short",
-                            year: "numeric",
-                          },
-                        )
+                        "en-US",
+                        {
+                          month: "short",
+                          year: "numeric",
+                        },
+                      )
                       : "N/A"}
                   </p>
                 </div>

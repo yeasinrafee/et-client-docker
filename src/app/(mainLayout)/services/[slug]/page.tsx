@@ -8,6 +8,8 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://emperaltech.com";
+
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
@@ -16,16 +18,30 @@ export async function generateMetadata({
 
   if (!service) {
     const fallback = servicesData.find((s) => s.slug === slug);
-    if (!fallback) return { title: "Service Not Found" };
+    if (!fallback) return { title: "Service Not Found | Emperal Tech" };
     return {
       title: `${fallback.title} | Emperal Tech Services`,
       description: fallback.description,
     };
   }
 
+  const seo = service.seo ?? {};
+  const canonical = `${SITE_URL}/services/${slug}`;
+  const title = seo.metaTitle || `${service.title} | Emperal Tech Services`;
+  const description = seo.metaDescription || service.description;
+
   return {
-    title: `${service.title} | Emperal Tech Services`,
-    description: service.description,
+    title,
+    description,
+    keywords: seo.seoKeywords || undefined,
+    alternates: { canonical },
+    openGraph: {
+      title: seo.metaTitle || service.title,
+      description,
+      url: canonical,
+      images: service.images?.[0] ? [{ url: service.images[0] }] : undefined,
+      type: "website",
+    },
   };
 }
 

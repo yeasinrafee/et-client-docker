@@ -8,8 +8,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import MultiImageUpload from "@/components/Dashboard/Shared/MultiImageUpload";
+import SeoFields from "@/components/Dashboard/Shared/SeoFields";
 import { useCrud } from "@/hooks/useCrud";
 import RichTextEditor from "@/components/Dashboard/Shared/RichTextEditor";
+import { emptySeoData } from "@/lib/schemas/seo";
 
 function slugify(text: string): string {
   return text
@@ -22,7 +24,7 @@ function slugify(text: string): string {
     .replace(/^-+|-+$/g, "");
 }
 
-const emptySeoData = { metaTitle: "", metaDescription: "", seoKeywords: "" };
+// emptySeoData imported from @/lib/schemas/seo
 
 const emptyForm = {
   title: "",
@@ -257,46 +259,11 @@ function CreateServiceForm() {
               />
             </div>
 
-            <div className="bg-white rounded-xl border border-gray-200 p-6 space-y-4">
-              <h2 className="font-semibold text-gray-800 text-base">SEO Settings</h2>
-
-              <div className="space-y-2">
-                <Label htmlFor="metaTitle">Meta Title</Label>
-                <Input
-                  id="metaTitle"
-                  value={formData.seoData.metaTitle}
-                  onChange={(e) =>
-                    setFormData({ ...formData, seoData: { ...formData.seoData, metaTitle: e.target.value } })
-                  }
-                  placeholder="SEO page title"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="metaDescription">Meta Description</Label>
-                <Textarea
-                  id="metaDescription"
-                  value={formData.seoData.metaDescription}
-                  onChange={(e) =>
-                    setFormData({ ...formData, seoData: { ...formData.seoData, metaDescription: e.target.value } })
-                  }
-                  placeholder="SEO meta description"
-                  rows={3}
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="seoKeywords">SEO Keywords <span className="text-gray-400 font-normal text-xs">(comma separated)</span></Label>
-                <Input
-                  id="seoKeywords"
-                  value={formData.seoData.seoKeywords}
-                  onChange={(e) =>
-                    setFormData({ ...formData, seoData: { ...formData.seoData, seoKeywords: e.target.value } })
-                  }
-                  placeholder="keyword1, keyword2"
-                />
-              </div>
-            </div>
+            <SeoFields
+              idPrefix="service"
+              value={formData.seoData}
+              onChange={(seoData) => setFormData({ ...formData, seoData })}
+            />
 
             <div className="flex gap-3">
               <Button

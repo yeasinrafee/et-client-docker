@@ -8,6 +8,8 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://emperaltech.com";
+
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
@@ -16,16 +18,30 @@ export async function generateMetadata({
 
   if (!product) {
     const fallback = productsData.find((p) => p.slug === slug);
-    if (!fallback) return { title: "Product Not Found" };
+    if (!fallback) return { title: "Product Not Found | Emperal Tech" };
     return {
       title: `${fallback.title} | Emperal Tech`,
       description: fallback.description,
     };
   }
 
+  const seo = product.seo ?? {};
+  const canonical = `${SITE_URL}/products/${slug}`;
+  const title = seo.metaTitle || `${product.title} | Emperal Tech`;
+  const description = seo.metaDescription || product.description;
+
   return {
-    title: `${product.title} | Emperal Tech`,
-    description: product.description,
+    title,
+    description,
+    keywords: seo.seoKeywords || undefined,
+    alternates: { canonical },
+    openGraph: {
+      title: seo.metaTitle || product.title,
+      description,
+      url: canonical,
+      images: product.images?.[0] ? [{ url: product.images[0] }] : undefined,
+      type: "website",
+    },
   };
 }
 

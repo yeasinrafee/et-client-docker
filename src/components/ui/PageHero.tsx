@@ -41,11 +41,11 @@ const PageHero: React.FC<PageHeroProps> = ({
       {/* Content - positioned at the bottom */}
       <Container className="relative z-10 !py-0 pb-8! sm:pb-10! md:pb-16! 2xl:pb-24!">
         <div className="max-w-3xl space-y-2 sm:space-y-3 md:space-y-4 2xl:space-y-5">
-          <h1 className="text-4xl md:text-5xl 2xl:text-7xl font-bold text-white tracking-tighter line-clamp-2">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tighter line-clamp-2">
             {title}
           </h1>
           {subtitle && (
-            <p className="text-sm sm:text-base md:text-lg 2xl:text-xl text-white/70 max-w-2xl md:leading-relaxed font-medium line-clamp-2">
+            <p className="text-sm sm:text-base md:text-lg text-white/70 max-w-2xl md:leading-relaxed font-medium line-clamp-3">
               {subtitle}
             </p>
           )}

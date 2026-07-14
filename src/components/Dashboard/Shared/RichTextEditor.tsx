@@ -8,6 +8,17 @@ import Highlight from "@tiptap/extension-highlight";
 import Link from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
 import Image from "@tiptap/extension-image";
+import { Table } from "@tiptap/extension-table";
+import TableRow from "@tiptap/extension-table-row";
+import TableHeader from "@tiptap/extension-table-header";
+import TableCell from "@tiptap/extension-table-cell";
+import TaskList from "@tiptap/extension-task-list";
+import TaskItem from "@tiptap/extension-task-item";
+import { TextStyle } from "@tiptap/extension-text-style";
+import Color from "@tiptap/extension-color";
+import FontFamily from "@tiptap/extension-font-family";
+import Subscript from "@tiptap/extension-subscript";
+import Superscript from "@tiptap/extension-superscript";
 import {
   Bold,
   Italic,
@@ -19,6 +30,7 @@ import {
   Heading3,
   List,
   ListOrdered,
+  ListChecks,
   Quote,
   Redo,
   Undo,
@@ -33,6 +45,17 @@ import {
   Upload,
   X,
   Loader2,
+  Table as TableIcon,
+  Trash2,
+  RowsIcon,
+  Columns3,
+  Baseline,
+  Type,
+  Subscript as SubscriptIcon,
+  Superscript as SuperscriptIcon,
+  SquareCode,
+  Eraser,
+  ChevronDown,
 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -57,7 +80,13 @@ export default function RichTextEditor({
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [activeTab, setActiveTab] = useState<"url" | "upload">("upload");
+  const [showColorPicker, setShowColorPicker] = useState(false);
+  const [showTableMenu, setShowTableMenu] = useState(false);
+  const [showFontMenu, setShowFontMenu] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const colorPickerRef = useRef<HTMLDivElement>(null);
+  const tableMenuRef = useRef<HTMLDivElement>(null);
+  const fontMenuRef = useRef<HTMLDivElement>(null);
 
   const editor = useEditor({
     immediatelyRender: false,
@@ -86,6 +115,31 @@ export default function RichTextEditor({
       Placeholder.configure({
         placeholder,
       }),
+      TextStyle,
+      Color,
+      FontFamily,
+      Subscript,
+      Superscript,
+      TaskList.configure({
+        HTMLAttributes: {
+          class: "task-list",
+        },
+      }),
+      TaskItem.configure({
+        nested: true,
+        HTMLAttributes: {
+          class: "task-item",
+        },
+      }),
+      Table.configure({
+        resizable: true,
+        HTMLAttributes: {
+          class: "tiptap-table",
+        },
+      }),
+      TableRow,
+      TableHeader,
+      TableCell,
     ],
     content: value,
     onUpdate: ({ editor }) => {
@@ -104,6 +158,31 @@ export default function RichTextEditor({
       editor.commands.setContent(value);
     }
   }, [value, editor]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        colorPickerRef.current &&
+        !colorPickerRef.current.contains(event.target as Node)
+      ) {
+        setShowColorPicker(false);
+      }
+      if (
+        tableMenuRef.current &&
+        !tableMenuRef.current.contains(event.target as Node)
+      ) {
+        setShowTableMenu(false);
+      }
+      if (
+        fontMenuRef.current &&
+        !fontMenuRef.current.contains(event.target as Node)
+      ) {
+        setShowFontMenu(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const setLink = useCallback(() => {
     if (!editor) return;
@@ -168,6 +247,37 @@ export default function RichTextEditor({
     setImagePreview(null);
   }, [editor, imageUrl]);
 
+  const insertTable = useCallback(() => {
+    if (!editor) return;
+    editor
+      .chain()
+      .focus()
+      .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+      .run();
+    setShowTableMenu(false);
+  }, [editor]);
+
+  const TEXT_COLORS = [
+    { label: "Default", value: "" },
+    { label: "Gray", value: "#6b7280" },
+    { label: "Red", value: "#ef4444" },
+    { label: "Orange", value: "#f97316" },
+    { label: "Amber", value: "#f59e0b" },
+    { label: "Green", value: "#22c55e" },
+    { label: "Teal", value: "#14b8a6" },
+    { label: "Blue", value: "#1677ff" },
+    { label: "Indigo", value: "#6366f1" },
+    { label: "Purple", value: "#a855f7" },
+    { label: "Pink", value: "#ec4899" },
+  ];
+
+  const FONT_FAMILIES = [
+    { label: "Default", value: "" },
+    { label: "Sans Serif", value: "ui-sans-serif, system-ui, sans-serif" },
+    { label: "Serif", value: "ui-serif, Georgia, serif" },
+    { label: "Monospace", value: "ui-monospace, SFMono-Regular, monospace" },
+  ];
+
   if (!editor) return null;
 
   const ToolbarButton = ({
@@ -195,9 +305,7 @@ export default function RichTextEditor({
     </button>
   );
 
-  const Divider = () => (
-    <div className="w-px h-6 bg-gray-200 mx-0.5" />
-  );
+  const Divider = () => <div className="w-px h-6 bg-gray-200 mx-0.5" />;
 
   return (
     <div className="space-y-2">
@@ -297,41 +405,130 @@ export default function RichTextEditor({
           >
             <Code size={16} />
           </ToolbarButton>
+          <ToolbarButton
+            onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+            isActive={editor.isActive("codeBlock")}
+            title="Code Block"
+          >
+            <SquareCode size={16} />
+          </ToolbarButton>
+          <ToolbarButton
+            onClick={() => editor.chain().focus().toggleSubscript().run()}
+            isActive={editor.isActive("subscript")}
+            title="Subscript"
+          >
+            <SubscriptIcon size={16} />
+          </ToolbarButton>
+          <ToolbarButton
+            onClick={() => editor.chain().focus().toggleSuperscript().run()}
+            isActive={editor.isActive("superscript")}
+            title="Superscript"
+          >
+            <SuperscriptIcon size={16} />
+          </ToolbarButton>
+
+          {/* Text Color */}
+          <div className="relative" ref={colorPickerRef}>
+            <ToolbarButton
+              onClick={() => setShowColorPicker((v) => !v)}
+              isActive={showColorPicker}
+              title="Text Color"
+            >
+              <Baseline size={16} />
+            </ToolbarButton>
+            {showColorPicker && (
+              <div className="absolute z-20 top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-2 grid grid-cols-6 gap-1.5 w-[180px]">
+                {TEXT_COLORS.map((c) => (
+                  <button
+                    key={c.label}
+                    type="button"
+                    title={c.label}
+                    onClick={() => {
+                      if (c.value) {
+                        editor.chain().focus().setColor(c.value).run();
+                      } else {
+                        editor.chain().focus().unsetColor().run();
+                      }
+                      setShowColorPicker(false);
+                    }}
+                    className="w-6 h-6 rounded-full border border-gray-200 hover:scale-110 transition-transform flex items-center justify-center"
+                    style={{ backgroundColor: c.value || "#ffffff" }}
+                  >
+                    {!c.value && <X size={12} className="text-gray-400" />}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Font Family */}
+          <div className="relative" ref={fontMenuRef}>
+            <ToolbarButton
+              onClick={() => setShowFontMenu((v) => !v)}
+              isActive={showFontMenu}
+              title="Font Family"
+            >
+              <Type size={16} />
+            </ToolbarButton>
+            {showFontMenu && (
+              <div className="absolute z-20 top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-1 w-[160px]">
+                {FONT_FAMILIES.map((f) => (
+                  <button
+                    key={f.label}
+                    type="button"
+                    onClick={() => {
+                      if (f.value) {
+                        editor.chain().focus().setFontFamily(f.value).run();
+                      } else {
+                        editor.chain().focus().unsetFontFamily().run();
+                      }
+                      setShowFontMenu(false);
+                    }}
+                    style={{ fontFamily: f.value || undefined }}
+                    className="w-full text-left px-2.5 py-1.5 text-sm rounded-md hover:bg-gray-100 text-gray-700"
+                  >
+                    {f.label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <ToolbarButton
+            onClick={() =>
+              editor.chain().focus().unsetAllMarks().clearNodes().run()
+            }
+            title="Clear Formatting"
+          >
+            <Eraser size={16} />
+          </ToolbarButton>
 
           <Divider />
 
           {/* Alignment */}
           <ToolbarButton
-            onClick={() =>
-              editor.chain().focus().setTextAlign("left").run()
-            }
+            onClick={() => editor.chain().focus().setTextAlign("left").run()}
             isActive={editor.isActive({ textAlign: "left" })}
             title="Align Left"
           >
             <AlignLeft size={16} />
           </ToolbarButton>
           <ToolbarButton
-            onClick={() =>
-              editor.chain().focus().setTextAlign("center").run()
-            }
+            onClick={() => editor.chain().focus().setTextAlign("center").run()}
             isActive={editor.isActive({ textAlign: "center" })}
             title="Align Center"
           >
             <AlignCenter size={16} />
           </ToolbarButton>
           <ToolbarButton
-            onClick={() =>
-              editor.chain().focus().setTextAlign("right").run()
-            }
+            onClick={() => editor.chain().focus().setTextAlign("right").run()}
             isActive={editor.isActive({ textAlign: "right" })}
             title="Align Right"
           >
             <AlignRight size={16} />
           </ToolbarButton>
           <ToolbarButton
-            onClick={() =>
-              editor.chain().focus().setTextAlign("justify").run()
-            }
+            onClick={() => editor.chain().focus().setTextAlign("justify").run()}
             isActive={editor.isActive({ textAlign: "justify" })}
             title="Justify"
           >
@@ -356,6 +553,13 @@ export default function RichTextEditor({
             <ListOrdered size={16} />
           </ToolbarButton>
           <ToolbarButton
+            onClick={() => editor.chain().focus().toggleTaskList().run()}
+            isActive={editor.isActive("taskList")}
+            title="Task List"
+          >
+            <ListChecks size={16} />
+          </ToolbarButton>
+          <ToolbarButton
             onClick={() => editor.chain().focus().toggleBlockquote().run()}
             isActive={editor.isActive("blockquote")}
             title="Quote"
@@ -366,12 +570,118 @@ export default function RichTextEditor({
           <Divider />
 
           {/* Insert */}
-          <ToolbarButton onClick={setLink} isActive={editor.isActive("link")} title="Link">
+          <ToolbarButton
+            onClick={setLink}
+            isActive={editor.isActive("link")}
+            title="Link"
+          >
             <LinkIcon size={16} />
           </ToolbarButton>
           <ToolbarButton onClick={openImageModal} title="Insert Image">
             <ImageIcon size={16} />
           </ToolbarButton>
+
+          {/* Table */}
+          <div className="relative" ref={tableMenuRef}>
+            <button
+              type="button"
+              onClick={() => setShowTableMenu((v) => !v)}
+              title="Table"
+              className={`flex items-center gap-0.5 p-1.5 rounded-md transition-all duration-150 hover:bg-gray-200 ${
+                editor.isActive("table") || showTableMenu
+                  ? "bg-blue-100 text-blue-700 shadow-sm"
+                  : "text-gray-600 hover:text-gray-900"
+              }`}
+            >
+              <TableIcon size={16} />
+              <ChevronDown size={12} />
+            </button>
+            {showTableMenu && (
+              <div className="absolute z-20 top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-1.5 w-[200px] space-y-0.5">
+                {!editor.isActive("table") ? (
+                  <button
+                    type="button"
+                    onClick={insertTable}
+                    className="w-full flex items-center gap-2 text-left px-2.5 py-1.5 text-sm rounded-md hover:bg-gray-100 text-gray-700"
+                  >
+                    <TableIcon size={14} />
+                    Insert table
+                  </button>
+                ) : (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        editor.chain().focus().addRowAfter().run();
+                        setShowTableMenu(false);
+                      }}
+                      className="w-full flex items-center gap-2 text-left px-2.5 py-1.5 text-sm rounded-md hover:bg-gray-100 text-gray-700"
+                    >
+                      <RowsIcon size={14} />
+                      Add row below
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        editor.chain().focus().addColumnAfter().run();
+                        setShowTableMenu(false);
+                      }}
+                      className="w-full flex items-center gap-2 text-left px-2.5 py-1.5 text-sm rounded-md hover:bg-gray-100 text-gray-700"
+                    >
+                      <Columns3 size={14} />
+                      Add column right
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        editor.chain().focus().deleteRow().run();
+                        setShowTableMenu(false);
+                      }}
+                      className="w-full flex items-center gap-2 text-left px-2.5 py-1.5 text-sm rounded-md hover:bg-gray-100 text-gray-700"
+                    >
+                      <RowsIcon size={14} />
+                      Delete row
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        editor.chain().focus().deleteColumn().run();
+                        setShowTableMenu(false);
+                      }}
+                      className="w-full flex items-center gap-2 text-left px-2.5 py-1.5 text-sm rounded-md hover:bg-gray-100 text-gray-700"
+                    >
+                      <Columns3 size={14} />
+                      Delete column
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        editor.chain().focus().mergeOrSplit().run();
+                        setShowTableMenu(false);
+                      }}
+                      className="w-full flex items-center gap-2 text-left px-2.5 py-1.5 text-sm rounded-md hover:bg-gray-100 text-gray-700"
+                    >
+                      <TableIcon size={14} />
+                      Merge / split cell
+                    </button>
+                    <div className="h-px bg-gray-100 my-1" />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        editor.chain().focus().deleteTable().run();
+                        setShowTableMenu(false);
+                      }}
+                      className="w-full flex items-center gap-2 text-left px-2.5 py-1.5 text-sm rounded-md hover:bg-red-50 text-red-600"
+                    >
+                      <Trash2 size={14} />
+                      Delete table
+                    </button>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+
           <ToolbarButton
             onClick={() => editor.chain().focus().setHorizontalRule().run()}
             title="Horizontal Rule"
@@ -390,7 +700,9 @@ export default function RichTextEditor({
           <div className="bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
             {/* Modal Header */}
             <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-              <h3 className="text-lg font-semibold text-gray-900">Insert Image</h3>
+              <h3 className="text-lg font-semibold text-gray-900">
+                Insert Image
+              </h3>
               <button
                 type="button"
                 onClick={() => setShowImageModal(false)}
@@ -454,7 +766,9 @@ export default function RichTextEditor({
                         <div className="absolute inset-0 bg-white/80 rounded-lg flex items-center justify-center">
                           <div className="flex items-center gap-2 text-blue-600">
                             <Loader2 size={20} className="animate-spin" />
-                            <span className="text-sm font-medium">Uploading...</span>
+                            <span className="text-sm font-medium">
+                              Uploading...
+                            </span>
                           </div>
                         </div>
                       )}
@@ -464,7 +778,8 @@ export default function RichTextEditor({
                           onClick={() => {
                             setImagePreview(null);
                             setImageUrl("");
-                            if (fileInputRef.current) fileInputRef.current.value = "";
+                            if (fileInputRef.current)
+                              fileInputRef.current.value = "";
                           }}
                           className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600 transition-colors shadow-md"
                         >
@@ -622,9 +937,84 @@ export default function RichTextEditor({
           border-radius: 8px;
           margin: 1rem 0;
         }
+        .tiptap pre {
+          background: #1a202c;
+          color: #edf2f7;
+          border-radius: 8px;
+          padding: 0.75rem 1rem;
+          margin: 1rem 0;
+          overflow-x: auto;
+          font-size: 0.875rem;
+        }
+        .tiptap pre code {
+          background: none;
+          color: inherit;
+          padding: 0;
+          font-size: inherit;
+        }
+        .tiptap sub,
+        .tiptap sup {
+          font-size: 0.75em;
+        }
+        .tiptap ul[data-type="taskList"] {
+          list-style: none;
+          padding-left: 0.25rem;
+        }
+        .tiptap ul[data-type="taskList"] li {
+          display: flex;
+          align-items: flex-start;
+          gap: 0.5rem;
+        }
+        .tiptap ul[data-type="taskList"] li > label {
+          margin-top: 0.2rem;
+          user-select: none;
+        }
+        .tiptap ul[data-type="taskList"] li > div {
+          flex: 1;
+        }
+        .tiptap ul[data-type="taskList"] input[type="checkbox"] {
+          cursor: pointer;
+          width: 16px;
+          height: 16px;
+        }
+        .tiptap table {
+          border-collapse: collapse;
+          table-layout: fixed;
+          width: 100%;
+          margin: 1rem 0;
+          overflow: hidden;
+        }
+        .tiptap table td,
+        .tiptap table th {
+          border: 1px solid #e5e7eb;
+          padding: 0.5rem 0.75rem;
+          vertical-align: top;
+          position: relative;
+        }
+        .tiptap table th {
+          background-color: #f9fafb;
+          font-weight: 600;
+          text-align: left;
+        }
+        .tiptap table .selectedCell {
+          background-color: rgba(22, 119, 255, 0.08);
+        }
+        .tiptap table .column-resize-handle {
+          position: absolute;
+          right: -2px;
+          top: 0;
+          bottom: -2px;
+          width: 4px;
+          background-color: #1677ff;
+          pointer-events: none;
+        }
+        .tiptap .tableWrapper {
+          overflow-x: auto;
+        }
+        .tiptap.resize-cursor {
+          cursor: col-resize;
+        }
       `}</style>
     </div>
   );
 }
-
-

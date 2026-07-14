@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,105 +18,27 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import ActionMenu from "@/components/Dashboard/Shared/ActionMenu";
 import DeleteModal from "@/components/Dashboard/Shared/DeleteModal";
-import MultiImageUpload from "@/components/Dashboard/Shared/MultiImageUpload";
-import MultiSelect from "@/components/Dashboard/Shared/MultiSelect";
 import PaginationControls from "@/components/Dashboard/Shared/PaginationControls";
 import SearchBar from "@/components/Dashboard/Shared/SearchBar";
 import { Badge } from "@/components/ui/badge";
 import { useCrud } from "@/hooks/useCrud";
 
 export default function DemosPage() {
+  const router = useRouter();
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const limit = 10;
 
-  const { useGetItems, useCreateItem, useUpdateItem, useDeleteItem } = useCrud("demos");
-  const { data: categoriesData } = useCrud("demo-categories").useGetItems({ page: 1, limit: 100, search: "" });
+  const { useGetItems, useDeleteItem } = useCrud("demos");
   const { data, isLoading } = useGetItems({ page, limit, search });
-  const createMutation = useCreateItem();
-  const updateMutation = useUpdateItem();
   const deleteMutation = useDeleteItem();
 
-  const [isCreateOpen, setIsCreateOpen] = useState(false);
-  const [isEditOpen, setIsEditOpen] = useState(false);
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   
   const [selectedItem, setSelectedItem] = useState<any>(null);
-  const [formData, setFormData] = useState<any>({ 
-    title: "", 
-    slug: "", 
-    description: "", 
-    demoUrl: "",
-    images: [],
-    categories: [] 
-  });
-
-  const handleCreate = (e: React.FormEvent) => {
-    e.preventDefault();
-    const data = new FormData();
-    const textData: any = {};
-    
-    Object.entries(formData).forEach(([key, value]) => {
-      if (value instanceof File) {
-        data.append(key, value);
-      } else if (Array.isArray(value)) {
-        // Handle array of images/files or IDs
-        const files = value.filter((v) => v instanceof File);
-        const nonFiles = value.filter((v) => !(v instanceof File));
-
-        files.forEach((file) => data.append(key, file));
-        textData[key] = nonFiles;
-      } else if (value !== null && value !== undefined) {
-        textData[key] = value;
-      }
-    });
-
-    data.append("data", JSON.stringify(textData));
-
-    createMutation.mutate(data, {
-      onSuccess: () => {
-        setIsCreateOpen(false);
-        setFormData({ title: "", slug: "", description: "", demoUrl: "", images: [], categories: [] });
-      },
-    });
-  };
-
-  const handleEdit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (selectedItem) {
-      const data = new FormData();
-      const textData: any = {};
-      
-      Object.entries(formData).forEach(([key, value]) => {
-        if (value instanceof File) {
-          data.append(key, value);
-        } else if (Array.isArray(value)) {
-          // Handle array of images/files or IDs
-          const files = value.filter((v) => v instanceof File);
-          const nonFiles = value.filter((v) => !(v instanceof File));
-
-          files.forEach((file) => data.append(key, file));
-          textData[key] = nonFiles;
-        } else if (value !== null && value !== undefined) {
-          textData[key] = value;
-        }
-      });
-
-      data.append("data", JSON.stringify(textData));
-
-      updateMutation.mutate(
-        { id: selectedItem._id, data: data },
-        {
-          onSuccess: () => setIsEditOpen(false),
-        }
-      );
-    }
-  };
 
   const handleDelete = () => {
     if (selectedItem) {
@@ -126,16 +49,11 @@ export default function DemosPage() {
   };
 
   const openEdit = (item: any) => {
-    setSelectedItem(item);
-    setFormData({ 
-      title: item.title || "", 
-      slug: item.slug || "", 
-      description: item.description || "",
-      demoUrl: item.demoUrl || "",
-      images: item.images || [],
-      categories: item.categories?.map((c: any) => c._id || c) || []
-    });
-    setIsEditOpen(true);
+    router.push(`/dashboard/demos/create?id=${item._id}`);
+  };
+
+  const openCreate = () => {
+    router.push("/dashboard/demos/create");
   };
 
   const openView = (item: any) => {
@@ -166,7 +84,7 @@ export default function DemosPage() {
 
       <div className="flex justify-between items-center mb-6 py-4">
         <SearchBar value={search} onChange={(val) => { setSearch(val); setPage(1); }} />
-        <Button onClick={() => setIsCreateOpen(true)} className="bg-[#1677ff] hover:bg-[#0f62d9] text-white h-10 px-4 py-2">
+        <Button onClick={openCreate} className="bg-[#1677ff] hover:bg-[#0f62d9] text-white h-10 px-4 py-2">
           <Plus className="mr-2 h-4 w-4" /> Create Demo
         </Button>
       </div>
@@ -187,11 +105,11 @@ export default function DemosPage() {
           <TableBody>
             {isLoading ? (
               <TableRow>
-                <TableCell colSpan={5} className="text-center h-24">Loading...</TableCell>
+                <TableCell colSpan={7} className="text-center h-24">Loading...</TableCell>
               </TableRow>
             ) : items.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={5} className="text-center h-24">No data found.</TableCell>
+                <TableCell colSpan={7} className="text-center h-24">No data found.</TableCell>
               </TableRow>
             ) : (
               items.map((item: any, index: number) => (
@@ -247,134 +165,6 @@ export default function DemosPage() {
           onPageChange={setPage}
         />
       </div>
-
-      {/* Create Modal */}
-      <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
-        <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>Create Demo</DialogTitle>
-          </DialogHeader>
-          <form onSubmit={handleCreate} className="space-y-4 mt-4">
-            <div className="space-y-2">
-              <Label htmlFor="title">Title</Label>
-              <Input
-                id="title"
-                value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="slug">Slug</Label>
-              <Input
-                id="slug"
-                value={formData.slug}
-                onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="description">Description</Label>
-              <Input
-                id="description"
-                value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="demoUrl">Demo URL</Label>
-              <Input
-                id="demoUrl"
-                value={formData.demoUrl}
-                onChange={(e) => setFormData({ ...formData, demoUrl: e.target.value })}
-              />
-            </div>
-            <MultiImageUpload 
-              label="Demo Images"
-              value={formData.images} 
-              onChange={(files) => setFormData({ ...formData, images: files })} 
-            />
-            <MultiSelect
-              label="Categories"
-              placeholder="Select Categories"
-              options={categoriesData?.data?.map((c: any) => ({ label: c.name, value: c._id })) || []}
-              selected={formData.categories}
-              onChange={(vals) => setFormData({ ...formData, categories: vals })}
-            />
-            <div className="flex justify-end gap-3 pt-4 border-t">
-              <Button type="button" variant="outline" onClick={() => setIsCreateOpen(false)}>Cancel</Button>
-              <Button type="submit" className="bg-[#1677ff] hover:bg-[#0f62d9] text-white" disabled={createMutation.isPending}>
-                {createMutation.isPending ? "Creating..." : "Create"}
-              </Button>
-            </div>
-          </form>
-        </DialogContent>
-      </Dialog>
-
-      {/* Edit Modal */}
-      <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
-        <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>Edit Demo</DialogTitle>
-          </DialogHeader>
-          <form onSubmit={handleEdit} className="space-y-4 mt-4">
-            <div className="space-y-2">
-              <Label htmlFor="edit-title">Title</Label>
-              <Input
-                id="edit-title"
-                value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="edit-slug">Slug</Label>
-              <Input
-                id="edit-slug"
-                value={formData.slug}
-                onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="edit-description">Description</Label>
-              <Input
-                id="edit-description"
-                value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="edit-demoUrl">Demo URL</Label>
-              <Input
-                id="edit-demoUrl"
-                value={formData.demoUrl}
-                onChange={(e) => setFormData({ ...formData, demoUrl: e.target.value })}
-              />
-            </div>
-            <MultiImageUpload 
-              label="Demo Images"
-              value={formData.images} 
-              onChange={(files) => setFormData({ ...formData, images: files })} 
-            />
-            <MultiSelect
-              label="Categories"
-              placeholder="Select Categories"
-              options={categoriesData?.data?.map((c: any) => ({ label: c.name, value: c._id })) || []}
-              selected={formData.categories}
-              onChange={(vals) => setFormData({ ...formData, categories: vals })}
-            />
-            <div className="flex justify-end gap-3 pt-4 border-t">
-              <Button type="button" variant="outline" onClick={() => setIsEditOpen(false)}>Cancel</Button>
-              <Button type="submit" className="bg-[#1677ff] hover:bg-[#0f62d9] text-white" disabled={updateMutation.isPending}>
-                {updateMutation.isPending ? "Saving..." : "Save Changes"}
-              </Button>
-            </div>
-          </form>
-        </DialogContent>
-      </Dialog>
 
       {/* View Modal */}
       <Dialog open={isViewOpen} onOpenChange={setIsViewOpen}>
@@ -435,11 +225,11 @@ export default function DemosPage() {
                   </h4>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                     {selectedItem.images.map((img: string, idx: number) => (
-                      <div key={idx} className="relative aspect-video rounded-xl overflow-hidden border border-gray-200 bg-gray-50 flex items-center justify-center">
+                      <div key={idx} className="relative aspect-video rounded-xl overflow-hidden border border-gray-200 bg-gray-50">
                         <img 
                           src={img} 
                           alt={`${selectedItem.title} ${idx + 1}`} 
-                          className="h-full w-full object-cover p-1"
+                          className="absolute inset-0 w-full h-full object-cover"
                         />
                       </div>
                     ))}
@@ -464,6 +254,46 @@ export default function DemosPage() {
                 </div>
               )}
 
+              {/* Tags, Technologies & Features View */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {selectedItem.tags && selectedItem.tags.length > 0 && (
+                  <div>
+                    <h4 className="font-semibold text-gray-800 mb-2">Tags</h4>
+                    <div className="flex flex-wrap gap-1.5">
+                      {selectedItem.tags.map((t: string, idx: number) => (
+                        <Badge key={idx} variant="outline" className="bg-gray-50 text-gray-600 uppercase text-[10px] font-bold tracking-wider">
+                          {t}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {selectedItem.technologies && selectedItem.technologies.length > 0 && (
+                  <div>
+                    <h4 className="font-semibold text-gray-800 mb-2">Technologies</h4>
+                    <div className="flex flex-wrap gap-1.5">
+                      {selectedItem.technologies.map((t: string, idx: number) => (
+                        <Badge key={idx} variant="outline" className="bg-green-50 text-green-700 border-green-100 font-medium">
+                          {t}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {selectedItem.features && selectedItem.features.length > 0 && (
+                  <div>
+                    <h4 className="font-semibold text-gray-800 mb-2">Key Features</h4>
+                    <div className="flex flex-wrap gap-1.5">
+                      {selectedItem.features.map((f: string, idx: number) => (
+                        <Badge key={idx} variant="outline" className="bg-blue-50 text-blue-700 border-blue-100 font-medium">
+                          {f}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
               <div>
                 <h4 className="flex items-center gap-2 font-semibold text-gray-800 mb-3 text-lg">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
@@ -473,6 +303,203 @@ export default function DemosPage() {
                   <p className="text-gray-700 leading-relaxed whitespace-pre-wrap break-words">{selectedItem.description || "No description provided."}</p>
                 </div>
               </div>
+
+              {selectedItem.contentHtml && (
+                <div>
+                  <h4 className="flex items-center gap-2 font-semibold text-gray-800 mb-3 text-lg">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    Demo Content (Rich Text)
+                  </h4>
+                  <div className="bg-gray-50 p-5 rounded-xl border border-gray-100">
+                    <div
+                      className="product-content"
+                      dangerouslySetInnerHTML={{
+                        __html:
+                          selectedItem.contentHtml ||
+                          "<p>No content provided.</p>",
+                      }}
+                    />
+                  </div>
+                  <style jsx global>{`
+                    .product-content {
+                      font-size: 0.9375rem;
+                      line-height: 1.8;
+                      color: #374151;
+                      word-break: break-word;
+                    }
+                    .product-content h1 {
+                      font-size: 1.75rem;
+                      font-weight: 700;
+                      line-height: 1.3;
+                      color: #111827;
+                      margin-top: 1.75rem;
+                      margin-bottom: 0.75rem;
+                      padding-bottom: 0.5rem;
+                      border-bottom: 2px solid #e5e7eb;
+                    }
+                    .product-content h2 {
+                      font-size: 1.375rem;
+                      font-weight: 600;
+                      line-height: 1.35;
+                      color: #1f2937;
+                      margin-top: 1.5rem;
+                      margin-bottom: 0.5rem;
+                    }
+                    .product-content h3 {
+                      font-size: 1.125rem;
+                      font-weight: 600;
+                      line-height: 1.4;
+                      color: #1f2937;
+                      margin-top: 1.25rem;
+                      margin-bottom: 0.5rem;
+                    }
+                    .product-content p {
+                      margin-bottom: 0.875rem;
+                    }
+                    .product-content p:last-child {
+                      margin-bottom: 0;
+                    }
+                    .product-content strong {
+                      font-weight: 700;
+                      color: #111827;
+                    }
+                    .product-content em {
+                      font-style: italic;
+                    }
+                    .product-content u {
+                      text-decoration: underline;
+                      text-underline-offset: 3px;
+                    }
+                    .product-content s {
+                      text-decoration: line-through;
+                      color: #9ca3af;
+                    }
+                    .product-content ul {
+                      list-style-type: disc;
+                      padding-left: 1.5rem;
+                      margin-bottom: 1rem;
+                    }
+                    .product-content ol {
+                      list-style-type: decimal;
+                      padding-left: 1.5rem;
+                      margin-bottom: 1rem;
+                    }
+                    .product-content li {
+                      margin-bottom: 0.25rem;
+                      padding-left: 0.25rem;
+                    }
+                    .product-content li p {
+                      margin-bottom: 0.25rem;
+                    }
+                    .product-content blockquote {
+                      border-left: 4px solid #1677ff;
+                      padding: 0.75rem 1rem;
+                      margin: 1.25rem 0;
+                      background-color: #f0f6ff;
+                      border-radius: 0 8px 8px 0;
+                      color: #374151;
+                      font-style: italic;
+                    }
+                    .product-content blockquote p {
+                      margin-bottom: 0;
+                    }
+                    .product-content code {
+                      background-color: #f3f4f6;
+                      border: 1px solid #e5e7eb;
+                      border-radius: 4px;
+                      padding: 2px 6px;
+                      font-size: 0.85em;
+                      font-family: "JetBrains Mono", "Fira Code", monospace;
+                      color: #dc2626;
+                    }
+                    .product-content pre {
+                      background-color: #1e293b;
+                      color: #e2e8f0;
+                      border-radius: 8px;
+                      padding: 1rem 1.25rem;
+                      overflow-x: auto;
+                      margin: 1rem 0;
+                      font-size: 0.85em;
+                      line-height: 1.7;
+                    }
+                    .product-content pre code {
+                      background: none;
+                      border: none;
+                      padding: 0;
+                      color: inherit;
+                      font-size: inherit;
+                    }
+                    .product-content a {
+                      color: #1677ff;
+                      text-decoration: underline;
+                      text-underline-offset: 2px;
+                      transition: color 0.15s;
+                    }
+                    .product-content a:hover {
+                      color: #0f62d9;
+                    }
+                    .product-content mark {
+                      background-color: #fef08a;
+                      padding: 1px 4px;
+                      border-radius: 3px;
+                    }
+                    .product-content hr {
+                      border: none;
+                      border-top: 2px solid #e5e7eb;
+                      margin: 1.75rem 0;
+                    }
+                    .product-content img {
+                      max-width: 100%;
+                      height: auto;
+                      border-radius: 8px;
+                      margin: 1rem 0;
+                      border: 1px solid #e5e7eb;
+                    }
+                    .product-content > *:first-child {
+                      margin-top: 0;
+                    }
+                    .product-content table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9em; }
+                    .product-content th, .product-content td { border: 1px solid #d1d5db; padding: 0.6rem 0.875rem; text-align: left; }
+                    .product-content th { background-color: #f3f4f6; font-weight: 600; color: #111827; }
+                    .product-content tr:nth-child(even) td { background-color: #f9fafb; }
+                  `}</style>
+                </div>
+              )}
+
+              {selectedItem.seo && (selectedItem.seo.metaTitle || selectedItem.seo.metaDescription || (selectedItem.seo.seoKeywords && selectedItem.seo.seoKeywords.length > 0)) && (
+                <div>
+                  <h4 className="flex items-center gap-2 font-semibold text-gray-800 mb-3 text-lg">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                    SEO Settings
+                  </h4>
+                  <div className="bg-gray-50 p-5 rounded-xl border border-gray-100 space-y-3">
+                    {selectedItem.seo.metaTitle && (
+                      <div>
+                        <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider mb-0.5">Meta Title</p>
+                        <p className="text-sm font-medium text-gray-800">{selectedItem.seo.metaTitle}</p>
+                      </div>
+                    )}
+                    {selectedItem.seo.metaDescription && (
+                      <div>
+                        <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider mb-0.5">Meta Description</p>
+                        <p className="text-sm text-gray-700 leading-relaxed">{selectedItem.seo.metaDescription}</p>
+                      </div>
+                    )}
+                    {selectedItem.seo.seoKeywords && selectedItem.seo.seoKeywords.length > 0 && (
+                      <div>
+                        <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider mb-1">SEO Keywords</p>
+                        <div className="flex flex-wrap gap-1.5">
+                          {selectedItem.seo.seoKeywords.map((kw: string, idx: number) => (
+                            <Badge key={idx} variant="outline" className="bg-white text-gray-600 text-[10px]">
+                              {kw}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           )}
           

@@ -25,6 +25,17 @@ import ActionMenu from "@/components/Dashboard/Shared/ActionMenu";
 import DeleteModal from "@/components/Dashboard/Shared/DeleteModal";
 import { useCrud } from "@/hooks/useCrud";
 
+function slugify(text: string): string {
+  return text
+    .toString()
+    .trim()
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/[\s_]+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 export default function DemoCategoriesPage() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
@@ -43,6 +54,23 @@ export default function DemoCategoriesPage() {
   
   const [selectedItem, setSelectedItem] = useState<any>(null);
   const [formData, setFormData] = useState({ name: "", slug: "" });
+
+  const handleNameChange = (value: string) => {
+    setFormData((prev: any) => {
+      const prevNameSlug = slugify(prev.name || "");
+      const currentSlug = prev.slug || "";
+      const shouldAutoGenerate = currentSlug === "" || currentSlug === prevNameSlug;
+      return {
+        ...prev,
+        name: value,
+        slug: shouldAutoGenerate ? slugify(value) : currentSlug,
+      };
+    });
+  };
+
+  const handleSlugChange = (value: string) => {
+    setFormData((prev: any) => ({ ...prev, slug: value }));
+  };
 
   const handleCreate = (e: React.FormEvent) => {
     e.preventDefault();
@@ -172,7 +200,7 @@ export default function DemoCategoriesPage() {
               <Input
                 id="name"
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={(e) => handleNameChange(e.target.value)}
                 required
               />
             </div>
@@ -181,7 +209,7 @@ export default function DemoCategoriesPage() {
               <Input
                 id="slug"
                 value={formData.slug}
-                onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                onChange={(e) => handleSlugChange(e.target.value)}
                 required
               />
             </div>
@@ -207,7 +235,7 @@ export default function DemoCategoriesPage() {
               <Input
                 id="edit-name"
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={(e) => handleNameChange(e.target.value)}
                 required
               />
             </div>
@@ -216,7 +244,7 @@ export default function DemoCategoriesPage() {
               <Input
                 id="edit-slug"
                 value={formData.slug}
-                onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                onChange={(e) => handleSlugChange(e.target.value)}
                 required
               />
             </div>

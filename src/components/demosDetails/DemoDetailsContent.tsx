@@ -16,7 +16,11 @@ import Container from "@/components/shared/layout/Container";
 import PageHero from "../ui/PageHero";
 import { demosData } from "@/data/demosData";
 
-type Demo = (typeof demosData)[number];
+type Demo = (typeof demosData)[number] & {
+  contentHtml?: string;
+  categories?: any[];
+  seo?: any;
+};
 
 interface Props {
   demo: Demo;
@@ -84,35 +88,72 @@ const DemoDetailsContent = ({ demo }: Props) => {
       {/* Overview & Tech Stack */}
       <section className="py-6 md:py-10 lg:py-16 xl:py-20 bg-white">
         <Container>
-          <div className="grid lg:grid-cols-12 gap-12 md:gap-16 lg:gap-24 items-center">
+          <div className="grid lg:grid-cols-12 gap-12 md:gap-16 lg:gap-24 items-start">
             <div className="lg:col-span-7 space-y-4 md:space-y-8">
-              <h2 className="text-4xl md:text-5xl font-bold text-secondary tracking-tighter">
-                Project Overview
-              </h2>
-              <p className="text-secondary/60 text-base md:text-lg leading-relaxed">
-                {demo.description}
-              </p>
-
-              <div className="pt-8">
-                <h3 className="text-2xl font-bold text-secondary mb-6">
-                  Key Features
-                </h3>
-                <div className="grid sm:grid-cols-2 gap-4">
-                  {demo.features.map((feature, index) => (
-                    <div key={index} className="flex items-center gap-3">
-                      <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                        <MdCheck className="text-primary text-sm" />
-                      </div>
-                      <span className="text-secondary/80 font-medium">
-                        {feature}
-                      </span>
-                    </div>
-                  ))}
-                </div>
+              <div className="space-y-4">
+                <h2 className="text-4xl md:text-5xl font-bold text-secondary tracking-tighter">
+                  Project Overview
+                </h2>
+                <p className="text-secondary/60 text-base md:text-lg leading-relaxed whitespace-pre-line">
+                  {demo.description}
+                </p>
               </div>
+
+              {demo.contentHtml && (
+                <div className="pt-8 border-t border-accent">
+                  <div
+                    className="demo-rich-content"
+                    dangerouslySetInnerHTML={{ __html: demo.contentHtml }}
+                  />
+                  <style>{`
+                    .demo-rich-content { font-size: 1rem; line-height: 1.8; color: #4b5563; word-break: break-word; }
+                    .demo-rich-content h1 { font-size: 2rem; font-weight: 700; color: #111827; margin-top: 2rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid #e5e7eb; }
+                    .demo-rich-content h2 { font-size: 1.5rem; font-weight: 600; color: #1f2937; margin-top: 1.75rem; margin-bottom: 0.75rem; }
+                    .demo-rich-content h3 { font-size: 1.25rem; font-weight: 600; color: #1f2937; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+                    .demo-rich-content p { margin-bottom: 1rem; }
+                    .demo-rich-content p:last-child { margin-bottom: 0; }
+                    .demo-rich-content strong { font-weight: 700; color: #111827; }
+                    .demo-rich-content em { font-style: italic; }
+                    .demo-rich-content u { text-decoration: underline; text-underline-offset: 3px; }
+                    .demo-rich-content ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1.25rem; }
+                    .demo-rich-content ol { list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 1.25rem; }
+                    .demo-rich-content li { margin-bottom: 0.35rem; }
+                    .demo-rich-content blockquote { border-left: 4px solid #1677ff; padding: 0.75rem 1rem; margin: 1.5rem 0; background-color: #f0f6ff; border-radius: 0 8px 8px 0; color: #374151; font-style: italic; }
+                    .demo-rich-content code { background-color: #f3f4f6; border: 1px solid #e5e7eb; border-radius: 4px; padding: 2px 6px; font-size: 0.9em; color: #dc2626; }
+                    .demo-rich-content pre { background-color: #1e293b; color: #e2e8f0; border-radius: 8px; padding: 1.25rem; overflow-x: auto; margin: 1.5rem 0; }
+                    .demo-rich-content pre code { background: none; border: none; padding: 0; color: inherit; }
+                    .demo-rich-content a { color: #1677ff; text-decoration: underline; }
+                    .demo-rich-content img { max-width: 100%; height: auto; border-radius: 12px; margin: 1.5rem 0; border: 1px solid #e5e7eb; }
+                    .demo-rich-content table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.95em; }
+                    .demo-rich-content th, .demo-rich-content td { border: 1px solid #d1d5db; padding: 0.75rem 1rem; text-align: left; }
+                    .demo-rich-content th { background-color: #f3f4f6; font-weight: 600; color: #111827; }
+                    .demo-rich-content tr:nth-child(even) td { background-color: #f9fafb; }
+                  `}</style>
+                </div>
+              )}
+
+              {demo.features && demo.features.length > 0 && (
+                <div className="pt-8 border-t border-accent">
+                  <h3 className="text-2xl font-bold text-secondary mb-6">
+                    Key Features
+                  </h3>
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    {demo.features.map((feature, index) => (
+                      <div key={index} className="flex items-center gap-3">
+                        <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                          <MdCheck className="text-primary text-sm" />
+                        </div>
+                        <span className="text-secondary/80 font-medium">
+                          {feature}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
-            <div className="lg:col-span-5 p-6 md:p-8 rounded-[32px] bg-[#F8F8F8] border border-accent space-y-8">
+            <div className="lg:col-span-5 p-6 md:p-8 rounded-[32px] bg-[#F8F8F8] border border-accent space-y-8 lg:sticky lg:top-28 self-start">
               <div>
                 <h3 className="text-sm font-bold text-secondary/40 tracking-widest uppercase mb-4">
                   Technologies
@@ -133,9 +174,11 @@ const DemoDetailsContent = ({ demo }: Props) => {
                 <h3 className="text-sm font-bold text-secondary/40 tracking-widest uppercase mb-4">
                   Category
                 </h3>
-                <span className="text-secondary font-bold text-lg">
-                  {demo.category}
-                </span>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-4 py-2 bg-white text-secondary border border-accent text-xs font-bold tracking-wider rounded-full uppercase">
+                    {demo.category || (demo.categories && demo.categories[0] && (typeof demo.categories[0] === 'object' ? demo.categories[0].name : demo.categories[0])) || "N/A"}
+                  </span>
+                </div>
               </div>
               
               <div>
@@ -208,13 +251,14 @@ const DemoDetailsContent = ({ demo }: Props) => {
                     onClick={() => setSelectedImage(img as unknown as string)}
                     className="group cursor-pointer relative aspect-[4/3] w-full bg-white rounded-[32px] overflow-hidden border border-accent transition-all duration-500"
                   >
-                    <Image
-                      src={img}
-                      alt={`${demo.title} Screenshot ${index + 1}`}
-                      fill
-                      className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors duration-500 flex items-center justify-center">
+                    <div className="absolute inset-0 transition-transform duration-[4000ms] ease-in-out group-hover:-translate-y-[50%]">
+                      <img
+                        src={img as unknown as string}
+                        alt={`${demo.title} Screenshot ${index + 1}`}
+                        className="w-full h-auto object-cover object-top"
+                      />
+                    </div>
+                    <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors duration-500 flex items-center justify-center z-10">
                       <div className="bg-white text-secondary px-6 py-3 rounded-full font-bold text-sm opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
                         View Full Screen
                       </div>
